@@ -1,3 +1,6 @@
+//Guessing game
+//Kabir Vidyarthi
+//Date 9/15/21
 #include <iostream>
 #include <string>
 #include <stdio.h>
@@ -6,7 +9,7 @@
 
 int main() {
   //this is a guessing game
-  std::string playAgain;
+  char playAgain;
   //generate random number
   do {
     srand(time(NULL));
@@ -35,6 +38,6 @@ int main() {
     //in order to allow multiple plays of the game
     std::cout << "Do you want to play again?\nType 'y' or 'n': ";
     std::cin >> playAgain;
-  } while(playAgain=="y");
+  } while(playAgain=='y');
     return 0;
 }
