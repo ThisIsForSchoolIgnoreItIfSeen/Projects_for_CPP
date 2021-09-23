@@ -1,0 +1,27 @@
+//Palindrome
+//Author: Kabir Vidyarthi
+//Date: 9/17/21
+# include <iostream>
+using namespace std;
+
+int main() {
+  //code here
+  char potential_Palindrome[80];
+  char inputChar;
+  while(true) {
+    cin;
+    cin.get(inputChar);
+    if (inputChar==0 || inputChar==10) {
+      cout << "Line Break\n";
+    }
+    if ('A'<=inputChar && inputChar<='Z') {
+      cout << "Uppercase letter: " << inputChar << "\n";
+    } else if ('a'<=inputChar && inputChar<='z') {
+      cout << "Lowercase letter: " << inputChar << "\n";
+    } else {
+      cout << inputChar << " is not a letter" << "\n";
+      break;
+    }
+  }
+  return 0;
+}
