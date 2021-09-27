@@ -10,18 +10,16 @@ int main() {
   char inputChar[80];
   int simpleIterator = 0;
   //input loop
-  while(simpleIterator<80) {
-    cin.get(inputChar,10,'\n');
-    cin.ignore(80,'\n');
-    if (inputChar[0]==0 || inputChar[0]==10) {
+  cin.get(inputChar,80,'\n');
+  cin.ignore(80,'\n');
+  for (int i=0;i<80;i++) {
+    if (inputChar[i]==0||inputChar[i]==10)
       break;
-    }
     //only takes in ASCII chars so I dont have to take out the punctuation later
-    if (('A'<=inputChar[0] && inputChar[0]<='Z')||('a'<=inputChar[0]&&inputChar[0]<='z')) {
-      if ('A'<=inputChar[0]&&inputChar[0]<='Z') {
-	inputChar[0]+=('a'-'A');
-      }
-      potentialPalindrome[simpleIterator]=inputChar[0];
+    if (('A'<=inputChar[i] && inputChar[i]<='Z')||('a'<=inputChar[i]&&inputChar[i]<='z')) {
+      if ('A'<=inputChar[i]&&inputChar[i]<='Z')
+	inputChar[i]+=('a'-'A');
+      potentialPalindrome[simpleIterator]=inputChar[i];
       simpleIterator++;
     }
   }
