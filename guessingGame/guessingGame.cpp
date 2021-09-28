@@ -18,8 +18,8 @@ int main() {
     std::cout << "A random number has been chosen for you to guess between 0 and " << bound << "\n";
     bool won = false;
     //loop to guess the right number
-    for (int i = 0;i<10;i++) {
-      std::cout <<"What's your guess?\n";
+    for (int i = 10;i>0;i--) {
+      std::cout <<"You have " << i << " lives left\nWhat's your guess?\n";
       int guess;
       std::cin >> guess;
       if (guess==num) {
