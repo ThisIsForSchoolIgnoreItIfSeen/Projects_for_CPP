@@ -1,0 +1,44 @@
+//Tic-Tac-Toe
+//Author: Kabir Vidyarthi
+//Date: 9/27/21
+#include <iostream>
+using namespace std;
+
+int main() {
+  char gameBoard[4][4] = {{' ','1','2','3'},{'1',' ',' ',' '},{'2',' ',' ',' '},{'3',' ',' ',' '}};
+  int valueBoard[3][3] = {{0,0,0},{0,0,0},{0,0,0}};
+  int won = false;
+  int row=2;
+  int column=2;
+  bool playerOneTurn = true;
+  //gameloop
+  while (!won) {
+    cout << gameBoard[0] << '\n' << gameBoard[1] << '\n' << gameBoard[2] << '\n' << gameBoard[3] << '\n';
+    if (playerOneTurn) {
+      //announcing player 1's turn
+      cout << "It's player 1's turn\n";
+    }
+    else {
+      //announcing player 2's turn
+      cout << "It's player 2's turn\n";
+    }
+    //collects where to put tile
+    cout << "Which row would you like to put your tile in\n";
+    cin >> row;
+    cout << "Which column would you like to place your tile in\n";
+    cin >> column;
+    //gives tile to the correct player
+    if (playerOneTurn) {
+      valueBoard[row-1][column-1]=1;
+      gameBoard[row][column]='X';
+      playerOneTurn=false;
+    } else {
+      valueBoard[row-1][column-1]=2;
+      gameBoard[row][column]='O';
+      playerOneTurn=true;
+    }
+    //win logic if mess statements
+    //
+  }
+  return 0;
+}
