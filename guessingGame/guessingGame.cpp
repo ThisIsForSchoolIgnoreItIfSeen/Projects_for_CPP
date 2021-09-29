@@ -9,21 +9,24 @@
 int main() {
   //this is a guessing game
   char playAgain;
-  //generate random number
+  //loop to play multiple times
   do {
+    //picks random number within random bound
     srand(time(NULL));
     int bound = rand() % 51 + 50;
     srand(time(NULL));
     int num = rand() % bound;
     std::cout << "A random number has been chosen for you to guess between 0 and " << bound << "\n";
     bool won = false;
+    //guesses counter
+    int guessesTaken = 0;
     //loop to guess the right number
-    for (int i = 0;i<10;i++) {
-      std::cout <<"What's your guess?\n";
+    while (!won) {
+      std::cout <<"You've guessed "<< guessesTaken << " times\n" <<"What's your guess?\n";
       int guess;
       std::cin >> guess;
       if (guess==num) {
-	std::cout << "You Won!!\nThe number was " << num << "\n";
+	std::cout << "You Won!!\nThe number was " << num << " it took you " << guessesTaken << " tries\n";
 	won=true;
 	break;
       } else if (guess>num) {
@@ -31,9 +34,8 @@ int main() {
       } else {
 	std::cout << "Too small\n";
       }
+      guessesTaken++;
     }
-    if (!won)
-      std::cout << "Too bad, you ran out of lives, the number was " << num << "\n";
     //in order to allow multiple plays of the game
     std::cout << "Do you want to play again?\nType 'y' or 'n': ";
     std::cin >> playAgain;
