@@ -48,33 +48,46 @@ int main() {
       playerOneTurn=true;
     }
     //win logic if mess statements
-    //diagonal win conditions
-    if ((valueBoard[0][0]==valueBoard[1][1]&&valueBoard[1][1]==valueBoard[2][2])||(valueBoard[0][2]==valueBoard[1][1]&&valueBoard[1][1]==valueBoard[2][0])&&valueBoard[1][1]!=0) {
-      if (valueBoard[1][1]==0)
-	continue;
-      won = true;
-      winner = valueBoard[1][1];
-    }
-    //Horizontal and vertical win conditions
-    for (int i=0;i<3;i++) {
-      if ((valueBoard[i][0]==valueBoard[i][1]&&valueBoard[i][1]==valueBoard[i][2])||(valueBoard[0][i]==valueBoard[1][i]&&valueBoard[1][i]==valueBoard[i][3])&&valueBoard[i][i]!=0) {
-	if (valueBoard[i][i]==0)
-	  continue;
-	won = true;
-	winner = valueBoard[i][i];
-      }
-    }
     //Checking for a draw
     won=true;
     for (int i=0;i<3;i++)
       for (int j=0;j<3;j++)
 	if (valueBoard[i][j]==0)
 	  won=false;
+    //diagonal win conditions
+    if ((valueBoard[0][0]==valueBoard[1][1]&&valueBoard[1][1]==valueBoard[2][2])||(valueBoard[0][2]==valueBoard[1][1]&&valueBoard[1][1]==valueBoard[2][0])&&valueBoard[1][1]!=0) {
+      if (valueBoard[1][1]!=0) {
+	won=true;
+	winner = valueBoard[1][1];
+      }
+    }
+    //Horizontal and vertical win conditions
+    for (int i=0;i<3;i++) {
+      if (((valueBoard[i][0]==valueBoard[i][1]&&valueBoard[i][1]==valueBoard[i][2])||(valueBoard[0][i]==valueBoard[1][i]&&valueBoard[1][i]==valueBoard[2][i]))&&valueBoard[i][i]!=0) {
+	won = true;
+	winner = valueBoard[i][i];
+      }
+    }
+  }
+  
+    //board display loop
+  for (int i=0;i<4;i++) {
+    for (int j=0;j<4;j++)
+      cout << gameBoard[i][j] << '|';
+    cout << "\n--------\n";
   }
   //stating the winner
   if (winner==0)
     cout << "nobody won";
   else
-    cout << "Player " << winner << " won!";
-  return 0;
+    cout << "Player " << winner << " won!\n";
+  //Play again stuff
+  cin.ignore(80,'\n');
+  char answer[5];
+  cout << "Would you like to play again?\n'y' or 'n':";
+  cin.get(answer,3,'\n');
+  cin.ignore(80,'\n');
+  if ((answer[0]=='N')||(answer[0]=='n'))
+    return 0;
+  return main();
 }
