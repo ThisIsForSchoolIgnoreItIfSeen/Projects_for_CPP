@@ -31,7 +31,7 @@ public:
   ~videoGame() {delete this;}
 };
 
-void getGame(videoGame* tempvalue) {
+videoGame* getGame(videoGame* tempvalue) {
   //function to quickly recieve a videogame from the user
   cout << "Whats the name of the video game?\n";
   cin.get(tempvalue->name,80,'\n');
@@ -45,6 +45,7 @@ void getGame(videoGame* tempvalue) {
   cout << "what was its rating?\n";
   cin >> tempvalue->rating;
   cin.ignore(80,'\n');
+  return tempvalue;
 }
 
 //just the song class
@@ -60,7 +61,7 @@ public:
   ~song() {delete this;}
 };
 
-void getSong(song* tempvalue) {
+song* getSong(song* tempvalue) {
   //a function to quickly get a song from the user(I made it into a function so that I could test it before making the code loop)
   cout << "What's the name of the song?\n";
   cin.get(tempvalue->name,80,'\n');
@@ -76,6 +77,7 @@ void getSong(song* tempvalue) {
   cout << "How long is the song?\n";
   cin >> tempvalue->length;
   cin.ignore(80,'\n');
+  return tempvalue;
 };
 
 //movie subclass
@@ -91,7 +93,7 @@ public:
   ~movie() {delete this;}
 };
 
-void getMovie(movie* temp) {
+movie* getMovie(movie* temp) {
   //function to get a movie from the user
   cout << "Name of movie?\n";
   cin.get(temp->name,80,'\n');
@@ -106,6 +108,7 @@ void getMovie(movie* temp) {
   cout << "What was it rated?\n";
   cin >> temp->rating;
   cin.ignore(80,'\n');
+  return temp;
 }
 
 bool charComparer(char *f, char *s) {
@@ -154,18 +157,15 @@ int main() {
       }
       if (charComparer(addType,mediaTypes[0])) {
 	//game
-	sayingMediasSoundsHellish.push_back(new videoGame());
-	getGame(sayingMediasSoundsHellish.back());
+	sayingMediasSoundsHellish.push_back(getGame(new videoGame()));
       }
       else if (charComparer(addType,mediaTypes[1])) {
 	//song
-	sayingMediasSoundsHellish.push_back(new song());
-	getSong(sayingMediasSoundsHellish.back());
+	sayingMediasSoundsHellish.push_back(getSong(new song()));
       }
       else if (charComparer(addType,mediaTypes[2])) {
 	//movie
-        sayingMediasSoundsHellish.push_back(new movie());
-	getMovie(sayingMediasSoundsHellish.back());
+        sayingMediasSoundsHellish.push_back(getMovie(new movie()));
       }
     } else if (charComparer(command,commands[1])) {
       //print
