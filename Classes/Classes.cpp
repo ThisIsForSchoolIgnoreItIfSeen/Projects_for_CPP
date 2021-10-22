@@ -11,7 +11,7 @@ public:
   char name[80];
   int year;
   char publisher[80];
-  media() { cout << "Media Created"; }
+  media() { cout << "Media Created\n"; }
   virtual void disp() {
     //disp virtual function so that I have a universal thing
     cout << "Name: " << name << "\nRelease: " << year << "\nMade by: " << publisher;
@@ -23,7 +23,7 @@ public:
 class videoGame: public media {
 public:
   float rating;
-  videoGame() { cout << "Videogame created";}
+  videoGame() { cout << "Videogame created\n";}
   void disp() {
     //videogame implementation of disp function
     cout << "Name: " << name << "\nReleased: " << year << "\nMade by: " << publisher << "\nRated at " << rating << " out of 5 stars\n";
@@ -53,7 +53,7 @@ class song: public media {
 public:
   char artist[80];
   float length;
-  song() { cout << "Song Created"; }
+  song() { cout << "Song Created\n"; }
   void disp() {
     //implementation of disp for song
     cout << "Name: " << name << "\nPlayed by: " << artist << "\nPublished by: " << publisher << "\nPublished in: " << year << "\nDuration: " << length << " units of time\n";
@@ -85,7 +85,7 @@ class movie: public media {
 public:
   float duration;
   float rating;
-  movie() { cout << "Movie Created";}
+  movie() { cout << "Movie Created\n";}
   void disp() {
     //just the display function implementation for movie
     cout << "Name: " << name << "\nDirected by: " << publisher << "\nMade in: " << year << "\nLasts: " << duration << " units of time\nRated " << rating << " out of 5 stars\n";
@@ -181,7 +181,7 @@ int main() {
       cin.ignore(80,'\n');
       for (int i=0;i<sayingMediasSoundsHellish.size();i++) {
 	//iterates through list
-	if (sayingMediasSoundsHellish[i]->name==id||to_string(sayingMediasSoundsHellish[i]->year)==id) {
+	if (charComparer(sayingMediasSoundsHellish[i]->name,id)||to_string(sayingMediasSoundsHellish[i]->year)==id) {
 	  //checks if it has the same name or year
 	  sayingMediasSoundsHellish[i]->disp();
 	}
@@ -195,10 +195,10 @@ int main() {
       cin.ignore(80,'\n');
       for (auto i=sayingMediasSoundsHellish.begin();i!=sayingMediasSoundsHellish.end();++i) {
 	//finds the right medias to delete
-	if ((*i)->name==id) {
+	if (charComparer((*i)->name,id)) {
 	  //prints it out for confirmation
 	  (*i)->disp();
-	  cout <<"Are you sure you wish to delete this?\n'y' or 'n'";
+	  cout <<"Are you sure you wish to delete this?\n'y' or 'n':";
 	  cin.get(confirmation,5,'\n');
 	  cin.ignore(80,'\n');
 	  if (confirmation[0]=='y') {
