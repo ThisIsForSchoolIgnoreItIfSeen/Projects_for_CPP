@@ -6,6 +6,7 @@ This Program compiles a list of students and and their information, it also allo
 //Date: 10/1/21
 #include <iostream>
 #include <vector>
+#include <cmath>
 using namespace std;
 
 
@@ -26,11 +27,12 @@ struct Student {
     cin >> id;
     cout << "GPA:\n";
     cin >> GPA;
+    GPA = round(GPA*100)/100;
     cin.ignore(80,'\n');
   }
 
   void display() {
-    cout << "Name: " << firstName << " " << lastName << "\nStudent ID: " << id << "\nWeighted GPA:" << GPA << "\nUnweighted GPA: ~" << GPA*0.987 << '\n';
+    cout << "Name: " << firstName << " " << lastName << "\nStudent ID: " << id << "\nWeighted GPA:" << GPA << "\nUnweighted GPA: ~" << round(GPA*100*0.987)/100 << '\n';
   }
 };
 
