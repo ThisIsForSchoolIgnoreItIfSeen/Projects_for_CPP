@@ -4,7 +4,13 @@
 #include <iostream>
 using namespace std;
 
+int gameLoop(int p1Wins, int p2Wins);
+
 int main() {
+  return gameLoop(0,0);
+}
+
+int gameLoop(int p1Wins, int p2Wins) {
   char gameBoard[4][4] = {{' ','1','2','3'},{'1',' ',' ',' '},{'2',' ',' ',' '},{'3',' ',' ',' '}};
   int valueBoard[3][3] = {{0,0,0},{0,0,0},{0,0,0}};
   bool won = false;
@@ -15,6 +21,7 @@ int main() {
   //gameloop
   while (!won) {
     //board display loop
+    cout << "Player 1 has won: " << p1Wins << " times and Player 2 has won: " << p2Wins << " times\n";
     for (int i=0;i<4;i++) {
       for (int j=0;j<4;j++)
 	cout << gameBoard[i][j] << '|';
@@ -70,7 +77,8 @@ int main() {
     }
   }
   
-    //board display loop
+  //board display loop
+  cout << "Player 1 has won: " << p1Wins << " times and Player 2 has won: " << p2Wins << " times\n";
   for (int i=0;i<4;i++) {
     for (int j=0;j<4;j++)
       cout << gameBoard[i][j] << '|';
@@ -82,6 +90,8 @@ int main() {
   else
     cout << "Player " << winner << " won!\n";
   //Play again stuff
+  p1Wins = p1Wins + int(winner==1);
+  p2Wins = p2Wins + int(winner==2);
   cin.ignore(80,'\n');
   char answer[5];
   cout << "Would you like to play again?\n'y' or 'n':";
@@ -89,5 +99,5 @@ int main() {
   cin.ignore(80,'\n');
   if ((answer[0]=='N')||(answer[0]=='n'))
     return 0;
-  return main();
+  return gameLoop(p1Wins,p2Wins);
 }
