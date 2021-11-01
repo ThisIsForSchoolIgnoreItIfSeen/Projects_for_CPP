@@ -1,0 +1,15 @@
+#include "media.h"
+#include "movie.h"
+
+//movie subclass
+class movie: public media {
+public:
+  float duration;
+  float rating;
+  movie() { cout << "Movie Created\n";}
+  void disp() {
+    //just the display function implementation for movie
+    cout << "Name: " << name << "\nDirected by: " << publisher << "\nMade in: " << year << "\nLasts: " << duration << " units of time\nRated " << rating << " out of 5 stars\n";
+  }
+  ~movie() {delete this;}
+};
