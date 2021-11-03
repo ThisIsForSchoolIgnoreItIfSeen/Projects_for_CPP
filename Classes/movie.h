@@ -1,0 +1,14 @@
+#include "media.h"
+
+#ifndef MOVIE_H
+#define MOVIE_H
+//movie subclass
+class movie: public media {
+public:
+  float duration;
+  float rating;
+  movie();
+  void disp();
+  ~movie();
+};
+#endif

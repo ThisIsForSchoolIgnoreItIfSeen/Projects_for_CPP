@@ -1,0 +1,16 @@
+#include "media.h"
+#include "song.h"
+
+//just the song class
+class song: public media {
+public:
+  char artist[80];
+  float length;
+  song() { cout << "Song Created\n"; }
+  void disp() {
+    //implementation of disp for song
+    cout << "Name: " << name << "\nPlayed by: " << artist << "\nPublished by: " << publisher << "\nPublished in: " << year << "\nDura\
+tion: " << length << " units of time\n";
+  }
+  ~song() {delete this;}
+};

@@ -3,33 +3,11 @@
 //10/5/21
 #include <iostream>
 #include <vector>
+#include "media.h"
+#include "videoGame.h"
+#include "song.h"
+#include "movie.h"
 using namespace std;
-
-class media {
-  //just the media class
-public:
-  char name[80];
-  int year;
-  char publisher[80];
-  media() { cout << "Media Created\n"; }
-  virtual void disp() {
-    //disp virtual function so that I have a universal thing
-    cout << "Name: " << name << "\nRelease: " << year << "\nMade by: " << publisher;
-  }
-  virtual ~media() { delete this;}
-};
-
-//videogame subclass
-class videoGame: public media {
-public:
-  float rating;
-  videoGame() { cout << "Videogame created\n";}
-  void disp() {
-    //videogame implementation of disp function
-    cout << "Name: " << name << "\nReleased: " << year << "\nMade by: " << publisher << "\nRated at " << rating << " out of 5 stars\n";
-  }
-  ~videoGame() {delete this;}
-};
 
 videoGame* getGame(videoGame* tempvalue) {
   //function to quickly recieve a videogame from the user
@@ -48,19 +26,6 @@ videoGame* getGame(videoGame* tempvalue) {
   return tempvalue;
 }
 
-//just the song class
-class song: public media {
-public:
-  char artist[80];
-  float length;
-  song() { cout << "Song Created\n"; }
-  void disp() {
-    //implementation of disp for song
-    cout << "Name: " << name << "\nPlayed by: " << artist << "\nPublished by: " << publisher << "\nPublished in: " << year << "\nDuration: " << length << " units of time\n";
-  }
-  ~song() {delete this;}
-};
-
 song* getSong(song* tempvalue) {
   //a function to quickly get a song from the user(I made it into a function so that I could test it before making the code loop)
   cout << "What's the name of the song?\n";
@@ -78,19 +43,6 @@ song* getSong(song* tempvalue) {
   cin >> tempvalue->length;
   cin.ignore(80,'\n');
   return tempvalue;
-};
-
-//movie subclass
-class movie: public media {
-public:
-  float duration;
-  float rating;
-  movie() { cout << "Movie Created\n";}
-  void disp() {
-    //just the display function implementation for movie
-    cout << "Name: " << name << "\nDirected by: " << publisher << "\nMade in: " << year << "\nLasts: " << duration << " units of time\nRated " << rating << " out of 5 stars\n";
-  }
-  ~movie() {delete this;}
 };
 
 movie* getMovie(movie* temp) {
