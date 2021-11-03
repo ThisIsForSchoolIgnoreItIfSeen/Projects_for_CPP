@@ -31,6 +31,10 @@ struct Student {
     cin.ignore(80,'\n');
   }
 
+  ~Student() {
+    cout << "File for: " << firstName << ' ' << lastName << " Has been removed\n";
+  }
+
   void display() {
     cout << "Name: " << firstName << " " << lastName << "\nStudent ID: " << id << "\nWeighted GPA:" << GPA << "\nUnweighted GPA: ~" << round(GPA*100*0.987)/100 << '\n';
   }
@@ -74,8 +78,14 @@ int main() {
       cin.ignore(80,'\n');
       //for loop to get rid of the right student
       for (auto i=ease.begin();i!=ease.end();++i)
-	if ((*i)->id==id)
-	  ease.erase(i);
+	if ((*i)->id==id) {
+	  char confirm;
+	  cout << "Are you sure you want to remove " << (*i)->firstName << ' ' << (*i)->lastName << "?\n'y' or 'n':";
+	  cin >> confirm;
+	  cin.ignore(80,'\n');
+	  if (confirm =='y')
+	    ease.erase(i--);
+	}
     } else if (charComparer(command,commands[2])) {
       for (unsigned i=0;i<ease.size();++i) {
 	ease[i]->display();
