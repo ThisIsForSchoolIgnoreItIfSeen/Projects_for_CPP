@@ -1,0 +1,15 @@
+#include <vector>
+#ifndef ROOM_H
+#define ROOM_H
+
+class Room {
+  //this will need a lot
+ public:
+  char description[80];
+  vector<Item*> items;
+  vector<tuple<char,Room*>>;
+  Item key;
+  bool locked;
+};
+
+#endif
