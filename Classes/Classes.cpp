@@ -155,7 +155,7 @@ int main() {
 	  cin.ignore(80,'\n');
 	  if (confirmation[0]=='y') {
 	    //deletes
-	    i=sayingMediasSoundsHellish.erase(i);
+	    sayingMediasSoundsHellish.erase(i--);
 	  }
 	}
       }
