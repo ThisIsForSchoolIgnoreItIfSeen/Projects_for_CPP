@@ -98,7 +98,7 @@ int main() {
     if (charComparer(command,commands[0])) {
       //add
       char addType[10];
-      cout << "Would you like to add a 'GAME', 'SONG', or 'MOVIE'?\n";
+      cout << "Would you like to add a 'GAME', 'SONG', 'MOVIE', or go 'BACK'?\n";
       cin.get(addType,10,'\n');
       cin.ignore(80,'\n');
       //puts media type in lowercase to prevent errors
@@ -142,12 +142,12 @@ int main() {
       //delete
       char id[80];
       char confirmation[5];
-      cout << "What's the name of the media you wish to delete?\n";
+      cout << "What's the name of the media you wish to delete or it's year of publication?\n";
       cin.get(id,80,'\n');
       cin.ignore(80,'\n');
       for (auto i=sayingMediasSoundsHellish.begin();i!=sayingMediasSoundsHellish.end();++i) {
 	//finds the right medias to delete
-	if (charComparer((*i)->name,id)) {
+	if (charComparer((*i)->name,id)||to_string((*i)->year)==id) {
 	  //prints it out for confirmation
 	  (*i)->disp();
 	  cout <<"Are you sure you wish to delete this?\n'y' or 'n':";
