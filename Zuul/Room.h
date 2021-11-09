@@ -11,8 +11,10 @@ class Room {
   vector<tuple<char,Room*>>;
   Item key;
   bool locked;
+  void setExit(char dir, Room* location);
   Room(char desc[80]);
   ~Room();
+private:
 };
 
 #endif
@@ -26,6 +28,6 @@ struct Item {
   char description[80];
 
   Item(char n[20],char d[80]);
-}
+};
 
 #endif
