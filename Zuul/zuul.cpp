@@ -4,6 +4,7 @@
 #include <iostream>
 #include <vector>
 #include "Room.h"
+#include <cstring>
 using namespace std;
 
 void infiniteHallway();
@@ -14,6 +15,7 @@ const testing = true;
 
 int main() {
   //select map
+  infiniteHallway();
   return 0;
 }
 
@@ -21,8 +23,8 @@ int main() {
 void infiniteHallway() {
   //initialize room
   Room* hallway = new Room("A white hallway, with no distinguishable features");
-  hallway->setExit("left", hallway);
-  hallway->setExit("right", hallway);
+  hallway->setExit("w", hallway);
+  hallway->setExit("e", hallway);
   //start play loop
   play(hallway,true,0,hallway);
 }
@@ -35,7 +37,7 @@ void loopyRooms() {
 
 void play(Room* current, bool hallway, int time, Room* winRoom) {
   //give options
-  
+  current->Exits
 
   //collect choice
 

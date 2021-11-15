@@ -1,4 +1,5 @@
 #include <vector>
+#include <utility>
 #ifndef ROOM_H
 #define ROOM_H
 using namespace std;
@@ -6,15 +7,19 @@ using namespace std;
 class Room {
   //this will need a lot
  public:
-  char description[80];
-  vector<Item*> items;
-  vector<tuple<char,Room*>>;
   Item key;
   bool locked;
   void setExit(char dir, Room* location);
+  void setPrev(Room* prev);
+  void printExits();
+  Room* getExit(char key);
+  void rPrev();
   Room(char desc[80]);
   ~Room();
 private:
+  char description[80];
+  vector<Item*> items;
+  vector<pair<char,Room*>> exits;
 };
 
 #endif
