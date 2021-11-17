@@ -5,13 +5,15 @@
 #include <vector>
 #include "Room.h"
 #include <cstring>
+#include "patterns.hpp"
 using namespace std;
+using namespace mpark::patterns;
 
 void infiniteHallway();
 void loopyRooms();
-void play();
+void play(Room* current, bool hallway, int time, Room* winRoom);
 
-const testing = true;
+const bool testing = true;
 
 int main() {
   //select map
@@ -37,7 +39,7 @@ void loopyRooms() {
 
 void play(Room* current, bool hallway, int time, Room* winRoom) {
   //give options
-  current->Exits
+  current->printExits();
 
   //collect choice
 
