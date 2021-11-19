@@ -8,14 +8,12 @@
 struct Item {
   char name[20];
   char description[80];
-
+  //item methods are defined in header because they are giving me trouble when I put them separately
   Item(char n[20],char d[80]);
+  Item();
+  ~Item();
 };
 
-#endif
-
-#ifndef ROOM_H
-#define ROOM_H
 using namespace std;
 
 class Room {
@@ -23,6 +21,7 @@ class Room {
  public:
   Item key;
   bool locked;
+  char description[80];
   void setExit(char dir, Room* location);
   void setPrev(Room* prev);
   void printExits();
@@ -31,7 +30,6 @@ class Room {
   Room(char desc[80]);
   ~Room();
 private:
-  char description[80];
   vector<Item*> items;
   vector<pair<char,Room*>> exits;
 };
