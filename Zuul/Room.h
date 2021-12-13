@@ -4,6 +4,8 @@
 //item is too simple for class, including the struct definition in here for sake of simplicity
 #ifndef ITEM_S
 #define ITEM_S
+using namespace std;
+
 
 struct Item {
   char name[20];
@@ -14,14 +16,13 @@ struct Item {
   ~Item();
 };
 
-using namespace std;
-
 class Room {
   //this will need a lot
  public:
   Item key;
   bool locked;
-  char description[80];
+  char description[120];
+  void removeExit(char dir);
   void setExit(char dir, Room* location);
   void setPrev(Room* prev);
   void printExits();
@@ -33,4 +34,23 @@ private:
   vector<Item*> items;
   vector<pair<char,Room*>> exits;
 };
+
+class pair_node {
+public:
+  int first;
+  int second;
+  pair_node* next;
+  pair_node();
+  pair_node(int a, int b);
+  ~pair_node();
+};
+
+struct player {
+  vector<Item*> items;
+  void displayItems();
+  void play(Room* current, bool hallway, int rounds, Room* winRoom);
+  player();
+  ~player();
+};
+
 #endif
