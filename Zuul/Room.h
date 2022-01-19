@@ -35,14 +35,14 @@ private:
   vector<pair<char,Room*>> exits;
 };
 
-class pair_node {
+class node {
 public:
-  int first;
-  int second;
-  pair_node* next;
-  pair_node();
-  pair_node(int a, int b);
-  ~pair_node();
+  int value;
+  node* next;
+  void append(int value);
+  node();
+  node(int a);
+  ~node();
 };
 
 struct player {

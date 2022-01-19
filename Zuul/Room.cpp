@@ -59,6 +59,13 @@ void player::play(Room* current, bool hallway, int rounds, Room* winRoom) {
   cout << "Which way do you want to go?\n";
   cin >> dir;
   cin.ignore(15,'\n');
+  if (('A'<=dir)&&(dir<='Z')) {
+    dir += 'a'-'A';
+  }
+  if (dir=='q') {
+    cout << "thanks for playing!";
+    return;
+  }
   Room* next = current->getExit(dir);
   if (next==NULL) {
     next = current;
@@ -108,17 +115,19 @@ void Room::removeExit(char dir) {
 }
 
 void Room::setExit(char dir, Room* location) {
-    exits.push_back(make_pair(dir,location));
-    char opp = match(dir) (
-			   pattern('n') = []{return 's';},
-			   pattern('s') = []{return 'n';},
-			   pattern('e') = []{return 'w';},
-			   pattern('w') = []{return 'e';},
-			   pattern('b') = []{return 'b';}
-			   );
-    if (location->getExit(opp)==NULL) {
-	location->setExit(opp,this);
-      }
+  if (getExit(dir)!=NULL) {return;}
+  exits.push_back(make_pair(dir,location));
+  char opp = match(dir) (
+			 pattern('n') = []{return 's';},
+			 pattern('s') = []{return 'n';},
+			 pattern('e') = []{return 'w';},
+			 pattern('w') = []{return 'e';},
+			 pattern('u') = []{return 'b';},
+			 pattern('b') = []{return 'u';}
+			 );
+  if (location->getExit(opp)==NULL) {
+    location->setExit(opp,this);
+  }
 }
 
 void Room::setPrev(Room* prev) {
@@ -132,7 +141,8 @@ void Room::printExits() {
 		     pattern('s') = []{cout << "To the South there is ";},
 		     pattern('e') = []{cout << "To the East there is ";},
 		     pattern('w') = []{cout << "To the West there is ";},
-		     pattern('b') = []{cout << "Behind you there is ";}
+		     pattern('u') = []{cout << "Above you there is ";},
+		     pattern('b') = []{cout << "Below you there is ";}
 		     );
     cout << i->second->description << '\n';
   }
@@ -144,18 +154,25 @@ Room* Room::getExit(char key) {
   }
   return NULL;
 }
-pair_node::pair_node() {
-  first = 0;
-  second = 0;
+
+void node::append(int value) {
+  if (next == NULL) {
+    next = new node(value);
+  } else {
+    next->append(value);
+  }
+}
+
+node::node() {
+  value = 0;
   next=NULL;
 }
 
-pair_node::pair_node(int a, int b) {
-  first = a;
-  second = b;
+node::node(int a) {
+  value = a;
   next = NULL;
 }
 
-pair_node::~pair_node() {
-  cout << first << ',' << second << endl;
+node::~node() {
+  cout << "Deleted: " << value << endl;
 }

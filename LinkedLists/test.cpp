@@ -11,7 +11,7 @@ int main() {
   head->printAll();
   head->getCertain(2)->getStudent()->display();
   delete head->getCertain(2);
-  delete head;
+  delete rhead;
   
   return 0;
 }
