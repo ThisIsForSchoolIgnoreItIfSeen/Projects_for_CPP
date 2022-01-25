@@ -1,0 +1,17 @@
+#ifndef STUDENT_H
+#define STUDENT_H
+
+class student {
+ public:
+  char firstName[80];
+  char lastName[80];
+  int id;
+  float GPA;
+  student(char fName[80],char lName[80],int stid,float stGPA);
+  student();
+  ~student();
+  //displays all the student's information
+  void display();
+};
+
+#endif

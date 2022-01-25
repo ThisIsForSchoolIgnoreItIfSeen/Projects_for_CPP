@@ -1,101 +1,53 @@
-#include "node.h"
+/*
+Author: Bryce Truong
+Date Created: 1/10/22
+Last Modified: 1/14/22
+
+*/
 #include <iostream>
-#include <cmath>
 #include <cstring>
+#include <stdio.h>
+#include "Node.h"
+#include "Student.h"
+
 using namespace std;
 
-student::student(char fName[80],char lName[80],int stid,float stGPA) {
-  strcpy(firstName,fName);
-  strcpy(lastName,lName);
-  id = stid;
-  GPA = stGPA;
+Node::Node(){
+  student = NULL;
+  next = NULL;
 }
 
-student::student() {
-  cout << "First name:\n";
-  cin.get(firstName,80,'\n');
-  cin.ignore(80,'\n');
-  cout << "Last name:\n";
-  cin.get(lastName,80,'\n');
-  cin.ignore(80,'\n');
-  cout << "ID:\n";
-  cin >> id;
-  cout << "GPA:\n";
-  cin >> GPA;
-  GPA = round(GPA*100)/100;
-  cin.ignore(80,'\n');
+Node::Node(Student* newStudent){
+  student = newStudent;
+  next = NULL;
 }
 
-student::~student() {
-  cout << "File for: " << firstName << ' ' << lastName << " Has been removed\n";
+Node::~Node(){
+  delete student;
 }
 
-void student::display() {
-  cout << "Name: " << firstName << " " << lastName << "\nStudent ID: " << id << "\nWeighted GPA:" << GPA << "\nUnweighted GPA: ~" << round(GPA*100*0.987)/100 << '\n';
+void Node::setStudent(Student* newStudent) {
+  student = newStudent;
 }
 
-student* node::getStudent() {
-  return val;
+Student* Node::getStudent() {
+  return student;
 }
 
-node* node::getNext() {
-  if (next==NULL) {
-      return this;
-    }
+/*
+void Node::setValue(int newValue) {
+  value = newValue;
+}
+
+int Node::getValue() {
+  return value;
+}
+*/
+
+void Node::setNext(Node* newNext) {
+  next = newNext;
+}
+
+Node* Node::getNext() {
   return next;
-}
-
-node* node::getLast() {
-  if (next==NULL) {
-      return this;
-    }
-  return next->getLast();
-}
-
-node* node::getCertain(int i) {
-  if ((i==0)||(next==NULL)) {
-    return this;
-  }
-  return next->getCertain(i-1);
-}
-
-void node::printAll() {
-  val->display();
-  if (next != NULL) {
-      next->printAll();
-    }
-}
-
-void node::setNext(node* n) {
-  if (next == NULL) {
-      next = n;
-    } else {
-    next->setNext(n);
-  }
-}
-
-void node::removeNext() {
-  next = NULL;
-}
-
-node::node() {
-  next = NULL;
-}
-
-node::node(student* v) {
-  val = v;
-  next = NULL;
-}
-
-node::node(node* n) {
-  next = n;
-}
-
-node::node(student* v, node* n) {
-  val = v;
-  next = n;
-}
-
-node::~node() {
-  delete val;
 }
