@@ -36,9 +36,7 @@ void player::play(Room* current, bool hallway, int rounds, Room* winRoom) {
       cout << "Congratulations on Perservering, you have escaped the infinite hallway\nThat took you " << rounds << " moves";
       return;
     }
-  }
-
-  if (current==winRoom) {
+  } else if (current==winRoom) {
     int whymIAskingIfIDontCare;
     cout << "congratulations on escaping the loopy forest, how was the experience?\n_/5 *s:";
     cin >> whymIAskingIfIDontCare;
@@ -174,5 +172,4 @@ node::node(int a) {
 }
 
 node::~node() {
-  cout << "Deleted: " << value << endl;
 }

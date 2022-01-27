@@ -17,14 +17,14 @@ void infiniteHallway(player* theUser);
 void loopyRooms(player* theUser);
 void play(Room* current, bool hallway, int time, Room* winRoom);
 
-const bool testing = true;
+const bool TESTING = false;
 
 int main() {
   srand(time(NULL));
   player* theUser = new player();
   //select map
   //coin flip
-  if (rand()%2==0) {
+  if (rand()%2>0) {
     loopyRooms(theUser);
   } else {
     infiniteHallway(theUser);
@@ -57,19 +57,22 @@ void loopyRooms(player* theUser) {
   node* cur = new node(24);
   do {
     bool manyExits = false;
-    cout << "Checking: " << cur->value << endl;
-      //determine exits
-      //north
+    if (TESTING)
+      cout << "Checking: " << cur->value << endl;
+    //determine exits
+    //north
     if  ((cur->value>6)&&(!taken[cur->value-7])) {
       if (((cur->value%7==0)||(!taken[cur->value-8]))&&((cur->value<=13)||(!taken[cur->value-14]))&&((cur->value%7==6)||(!taken[cur->value-6]))) {
 	//check random
 	int chance = rand()%101;
-	cout << "Chance:" << chance << endl;
+	if (TESTING)
+	  cout << "Chance:" << chance << endl;
 	if (chance<75) {
 	  manyExits=true;
 	  taken[cur->value-7]=true;
 	  cur->append(cur->value-7);
-	  cout << "new point:" << cur->value-7 << endl;
+	  if (TESTING)
+	    cout << "new point:" << cur->value-7 << endl;
 	  currentCount++;
 	}
       }
@@ -79,12 +82,14 @@ void loopyRooms(player* theUser) {
       if (((cur->value<=6)||(!taken[cur->value-6]))&&((cur->value%7==5)||(!taken[cur->value+2]))&&((cur->value>=42)||(!taken[cur->value+8]))) {
 	//check random
 	int chance = rand()%101;
-	cout << "Chance:" << chance << endl;
+	if (TESTING)
+	  cout << "Chance:" << chance << endl;
 	if (chance<75) {
 	  manyExits=true;
 	  taken[cur->value+1]=true;
 	  cur->append(cur->value+1);
-	  cout << "new point:" << cur->value+1 << endl;
+	  if (TESTING)
+	    cout << "new point:" << cur->value+1 << endl;
 	  currentCount++;
 	}
       }
@@ -94,12 +99,14 @@ void loopyRooms(player* theUser) {
       if (((cur->value%7==6)||(!taken[cur->value+8]))&&((cur->value>=35)||(!taken[cur->value+14]))&&((cur->value%7==0)||(!taken[cur->value+6]))) {
 	//check random
 	int chance = rand()%101;
-	cout << "Chance:" << chance << endl;
+	if (TESTING)
+	  cout << "Chance:" << chance << endl;
 	if (chance<75) {
 	  manyExits=true;
 	  taken[cur->value+7]=true;
 	  cur->append(cur->value+7);
-	  cout << "new point:" << cur->value+7 << endl;
+	  if (TESTING)
+	    cout << "new point:" << cur->value+7 << endl;
 	  currentCount++;
 	}
       }
@@ -107,14 +114,16 @@ void loopyRooms(player* theUser) {
     //west
     if ((cur->value%7>0)&&(!taken[cur->value-1])) {
       if (((cur->value<=6)||(!taken[cur->value-8]))&&((cur->value>=42)||(!taken[cur->value+6]))&&((cur->value%7==1)||(!taken[cur->value-2]))) {
-	  //check random
-	  int chance = rand()%101;
-	cout << "Chance:" << chance << endl;
+	//check random
+	int chance = rand()%101;
+	if (TESTING)
+	  cout << "Chance:" << chance << endl;
 	if (chance<75) {
 	  manyExits=true;
 	  taken[cur->value-1]=true;
 	  cur->append(cur->value-1);
-	  cout << "new point:" << cur->value-1 << endl;
+	  if (TESTING)
+	    cout << "new point:" << cur->value-1 << endl;
 	  currentCount++;
 	}
 	}
@@ -124,7 +133,8 @@ void loopyRooms(player* theUser) {
     }
     //iterate
     if (cur->next!=NULL) {
-      cout << "onto next" << endl;
+      if (TESTING)
+	cout << "onto next" << endl;
       node* temp = cur;
       cur = cur->next;
       delete temp;
@@ -141,16 +151,20 @@ void loopyRooms(player* theUser) {
   int anIter = 0;
   for (int i=0; i<49; i++) {
     if (taken[i]) {
-      cout << '1';
+      if (TESTING)
+	cout << '1';
       layoutRooms[i]=rooms[anIter];
       anIter++;
     }
     else {
-      cout << '0';
+      if (TESTING)
+	cout << '0';
       layoutRooms[i]=NULL;
     }
-    if (i%7==6) {cout << endl;}
-    else {cout << ',';}
+    if (TESTING) {
+      if (i%7==6) {cout << endl;}
+      else {cout << ',';}
+    }
   }
   
   //set exits
