@@ -25,8 +25,12 @@ int main() {
   //select map
   //coin flip
   if (rand()%2>0) {
+    if (TESTING)
+      cout << "Rooms";
     loopyRooms(theUser);
   } else {
+    if (TESTING)
+      cout << "Hallway";
     infiniteHallway(theUser);
   }
   return 0;
@@ -67,7 +71,7 @@ void loopyRooms(player* theUser) {
 	int chance = rand()%101;
 	if (TESTING)
 	  cout << "Chance:" << chance << endl;
-	if (chance<75) {
+	if (chance<100*(0.735/(currentCount-21)+0.835)) {
 	  manyExits=true;
 	  taken[cur->value-7]=true;
 	  cur->append(cur->value-7);
@@ -84,7 +88,7 @@ void loopyRooms(player* theUser) {
 	int chance = rand()%101;
 	if (TESTING)
 	  cout << "Chance:" << chance << endl;
-	if (chance<75) {
+	if (chance<100*(0.735/(currentCount-21)+0.835)) {
 	  manyExits=true;
 	  taken[cur->value+1]=true;
 	  cur->append(cur->value+1);
@@ -101,7 +105,7 @@ void loopyRooms(player* theUser) {
 	int chance = rand()%101;
 	if (TESTING)
 	  cout << "Chance:" << chance << endl;
-	if (chance<75) {
+	if (chance<100*(0.735/(currentCount-21)+0.835)) {
 	  manyExits=true;
 	  taken[cur->value+7]=true;
 	  cur->append(cur->value+7);
@@ -118,7 +122,7 @@ void loopyRooms(player* theUser) {
 	int chance = rand()%101;
 	if (TESTING)
 	  cout << "Chance:" << chance << endl;
-	if (chance<75) {
+	if (chance<100*(0.735/(currentCount-21)+0.835)) {
 	  manyExits=true;
 	  taken[cur->value-1]=true;
 	  cur->append(cur->value-1);
