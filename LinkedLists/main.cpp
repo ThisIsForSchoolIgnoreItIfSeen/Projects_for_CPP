@@ -17,7 +17,7 @@ void remove(Node* n, int id); // done
 void remove(Node* n, Node* p, int id);
 void printr(Node* n); //done
 void push_back(Node* n, Student* s); //done
-int adder(Node* n, float* i, int c);
+float adder(Node* n, float f, int c);
 
 int main() {
   loop(new Node());
@@ -53,7 +53,8 @@ void loop(Node* head) {
     //print
     printr(head);
   } else if (charComparer(command,commands[3])) {
-    float count = adder(head);
+    //average
+    float count = adder(head,0,0);
     if (count>0)
       cout << "Average GPA:" << count << endl;
     else
@@ -131,15 +132,18 @@ void remove(Node* n, Node* p, int id) {
     remove(n->getNext(),n,id);
   }
 }
-int adder(Node* n)
-int adder(Node* n, float* i, int c) {
+
+float adder(Node* n, float i, int c) {
   if (n->getStudent()!=NULL) {
-    *i+=n->getStudent()->GPA;
+    i+=n->getStudent()->GPA;
     c++;
   }
   if (n->getNext()!=NULL) {
-    return adder(n, i, c);
+    return adder(n->getNext(), i, c);
   } else {
-    return c;
+    if (c>0)
+      return i/(float)c;
+    else
+      return (float)c;
   }
 }
