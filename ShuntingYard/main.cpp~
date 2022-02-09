@@ -1,0 +1,11 @@
+#include "BNode.h"
+#include "LNode.h"
+#include <iostream>
+#include <cmath>
+#include <cstring>
+using namespace std;
+
+int main() {
+  cout << "AAAAAAAAAAAAAAAAAAAAAAAAAHHHHHHHHHHHHHH";
+  return 0;
+}

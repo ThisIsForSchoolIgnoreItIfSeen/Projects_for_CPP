@@ -1,0 +1,28 @@
+#ifndef LNODE_H
+#define LNODE_H
+
+template <class T>
+class LNode {
+ public:
+  //these two are too simple, literally just give you the pointers to the corresponding values btw get certain is 0-indexing
+  T getValue();
+  LNode<T>* getNext();
+  LNode<T>* getLast();
+  LNode<T>* getCertain(int pos);
+  //appends a LNode to end of linked list
+  void setNext(LNode<T>* n);
+  //use this before destroying a LNode if you don't want to destroy everything after the LNode
+  void removeNext();
+  //initilizes LNodes with corresponding values
+  LNode();
+  LNode(T v);
+  LNode(LNode<T>* n);
+  LNode(T v, LNode<T>* n);
+  //destroys value
+  ~LNode();
+ private:
+  T val;
+  LNode<T>* next;
+};
+
+#endif

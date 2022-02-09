@@ -1,0 +1,25 @@
+#ifndef LNODE_H
+#define LNODE_H
+
+template<class T>
+class BNode {
+ public:
+  //these two are too simple, literally just give you the pointers to the corresponding values btw get certain is 0-indexing
+  T getValue();
+  BNode* getLeft();
+  BNode* getRight();
+  //appends a BNode to end of linked list
+  void setRight(BNode* n);
+  void setLeft(BNode* n);
+  //initilizes BNodes with corresponding values
+  BNode();
+  BNode(T v);
+  //destroys value
+  ~BNode();
+ private:
+  T val;
+  BNode* left;
+  BNode* right;
+};
+
+#endif
