@@ -8,10 +8,10 @@ class BNode {
   T getValue();
   BNode<T>* getLeft();
   BNode<T>* getRight();
-  //appends a BNode<T> to end of linked list
+  //sets right and left nodes
   void setRight(BNode<T>* n);
   void setLeft(BNode<T>* n);
-  //initilizes Nodes with corresponding values
+  //initilizes Nodes with corresponding values, cant initilize with left or right
   BNode();
   BNode(T v);
   //destroys value
