@@ -7,17 +7,17 @@
 using namespace std;
 using namespace mpark::patterns;
 
-void shuntInput(LNode<char>* output, char parser);
+void shuntInput(LNode<char>* &output, char parser);
 void pop(LNode<char>* n);
 //will usually use append method as its simpler and gives problems less often
 void push(LNode<char>* n, LNode<char>* p);
-//will usually use getlast method as its simpler
-LNode<char>* peek(LNode<char>* n);
+char peek(LNode<char>* n);
 //enqueue
 void backAdd();
 //dequeue
 void frontRemove();
 void printr(LNode<char>* n);
+bool isHigher(char a, char b);
 
 const bool testing = true;
 
@@ -32,55 +32,88 @@ int main() {
   return 0;
 }
 
-void shuntInput(LNode<char>* output, char parser) {
+void shuntInput(LNode<char>* &output, char parser) {
   LNode<char>* ops = NULL;
   while (parser != 0 && parser != 10 && parser != '\n' && parser != '\0' && parser != ')') {
-    cout << parser << endl;
-    if (parser == ' ') {
-      if (testing) {
-	cout << "space\n";
-      }
-    } else if (parser == '(') {
+    if (testing)
+      cout << parser << endl;
+    if (parser == '(') {
       cin.get(parser);
       shuntInput(output,parser);
     } else if (parser >= '0' && parser <= '9') {
-      if (testing)
-	cout << "num\n";
-      if (output != NULL)
-	output->append(parser);
-      else
+      if (output != NULL) {
+	output->append(new LNode(parser));
+      } else {
 	output = new LNode<char>(parser);
-    } else {
-      if (testing)
-	cout << "operator\n";
-      if (ops != NULL)
+      }
+    } else if (parser != ' ') {
+      if (ops != NULL) {
+	if (isHigher(peek(ops),parser)) {
+	  output->append(ops->getLast());
+	  pop(ops);
+	}
 	ops->append(parser);
-      else
+      } else {
 	ops = new LNode(parser);
+      }
     }
     cin.get(parser);
   }
-  output->append(ops);
+  while (ops!=NULL) {
+    output->append(ops->getLast());
+    pop(ops);
+  }
+  if (testing) {
+    printr(output);
+  }
 }
 
 void pop(LNode<char>* n) {
-  delete n->getLast();
-  n->getLast()->setNext(NULL);
+  if (n->getNext()==NULL) {
+    n = NULL;
+    return;
+  }
+  if (n->getNext()->getNext()==NULL) {
+    n->getNext()->setNext(NULL);
+  } else {pop(n->getNext());}
 }
 
 void push(LNode<char>* n, LNode<char>* p) {
   n->append(p);
 }
 
-LNode<char>* peek(LNode<char>* n) {
-  return n->getLast();
+char peek(LNode<char>* n) {
+  return n->getLast()->getValue();
 }
 
 void printr(LNode<char>* n) {
-  cout << n->getValue();
+  if (n==NULL) {
+    cout << "passed NULL Node\n";
+    return;
+  }
+  char a = n->getValue();
+  cout << a;
   if (n->getNext()==NULL) {
     cout << endl;
   } else {
+    cout << ' ';
     printr(n->getNext());
   }
 }
+
+bool isHigher(char a, char b) {
+  if ((a == b) && (a != '^')) {
+    return true;
+  }
+  if ((a == '^') && (b != '^')) {
+    return true;
+  }
+  if (((a == '*') || (a == '/')) && (b != '^')) {
+    return true;
+  }
+  if (((a == '+') || (a == '-')) && ((b == '+') || (b == '-'))) {
+    return true;
+  }
+  return false;    
+}
+    
