@@ -14,8 +14,6 @@ class BNode {
   //initilizes Nodes with corresponding values, cant initilize with left or right
   BNode();
   BNode(T v);
-  //destroys value
-  ~BNode();
  private:
   T val;
   BNode<T>* left;

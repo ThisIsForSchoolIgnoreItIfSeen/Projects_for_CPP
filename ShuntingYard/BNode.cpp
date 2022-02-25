@@ -42,7 +42,4 @@ BNode<T>::BNode(T v) {
   right = NULL;
 }
 
-template <class T>
-BNode<T>::~BNode() {
-  delete val;
-}
+template class BNode<char>;
