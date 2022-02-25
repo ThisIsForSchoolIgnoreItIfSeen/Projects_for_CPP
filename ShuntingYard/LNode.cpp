@@ -66,7 +66,6 @@ LNode<T>::LNode() {
 
 template <class T>
 LNode<T>::LNode(T v) {
-  cout << "node created with " << v << endl;
   val = v;
   next = NULL;
 }

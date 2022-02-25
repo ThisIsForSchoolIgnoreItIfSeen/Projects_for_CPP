@@ -26,38 +26,50 @@ int main() {
   cout << "input equation:\n";
   char parser;
   cin.get(parser);
+  //gets the postfix
   shuntInput(output, parser);
+  //prints out postfix
   printr(output);
+  //hopefully will do whatever you want
+
+  //displays my state of mind
   cout << "AAAAAAAAAAAAAAAAAAAAAAAAAHHHHHHHHHHHHHH";
   return 0;
 }
 
 void shuntInput(LNode<char>* &output, char parser) {
   LNode<char>* ops = NULL;
+  //makes sure to end the damn thing eventually
   while (parser != 0 && parser != 10 && parser != '\n' && parser != '\0' && parser != ')') {
     if (testing)
       cout << parser << endl;
+    //somehow works, makes it so that the expressions within parenthesis are read correctly
     if (parser == '(') {
       cin.get(parser);
       shuntInput(output,parser);
     } else if (parser >= '0' && parser <= '9') {
+      //puts numbers at the end of the queue
       if (output != NULL) {
 	output->append(new LNode(parser));
       } else {
 	output = new LNode<char>(parser);
       }
     } else if (parser != ' ') {
+      //this is why I included my state of mind earlier
       if (ops != NULL) {
+	//handles operations when there are multiple
 	if (isHigher(peek(ops),parser)) {
 	  output->append(ops->getLast());
 	  ops = pop(ops);
 	}
+	//this if/else block has somehow caused the most problems out of EVERYTHING in this program
 	if (ops!=NULL) {
 	  ops->append(parser);
 	} else {
 	  ops = new LNode(parser);
 	}
       } else {
+	//I like this code block, BECAUSE IT
 	ops = new LNode(parser);
       }
     }
