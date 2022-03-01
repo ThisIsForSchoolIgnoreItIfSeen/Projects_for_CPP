@@ -164,13 +164,18 @@ void growsTrees(BNode<char>* &tree, LNode<char>* &stuff) {
       return;
     }
     tree = new BNode(stuff->getLast()->getValue());
+    if (testing) {
+      cout << tree->getValue();
+    }
     stuff = popD(stuff);
   }
   if (!(tree->getValue() > '0' && tree->getValue() < '9')) {
     BNode<char>* left = tree->getLeft();
     BNode<char>* right = tree->getRight();
     growsTrees(left, stuff);
+    tree->setLeft(left);
     growsTrees(right,stuff);
+    tree->setRight(right);
   }
 }
 
@@ -179,24 +184,24 @@ void printPre(BNode<char>* tree) {
     return;
   }
   cout << tree->getValue();
-  printPre(tree->getLeft());
   printPre(tree->getRight());
+  printPre(tree->getLeft());
 }
 
 void printIn(BNode<char>* tree) {
   if (tree == NULL) {
     return;
   }
-  printIn(tree->getLeft());
-  cout << tree->getValue();
   printIn(tree->getRight());
+  cout << tree->getValue();
+  printIn(tree->getLeft());
 }
 
 void printPost(BNode<char>* tree) {
   if (tree == NULL) {
     return;
   }
-  printPost(tree->getLeft());
   printPost(tree->getRight());
+  printPost(tree->getLeft());
   cout << tree->getValue();
 }
