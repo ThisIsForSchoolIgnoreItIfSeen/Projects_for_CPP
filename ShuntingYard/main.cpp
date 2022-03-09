@@ -1,3 +1,9 @@
+/*
+converts infix to pre and postfix
+Author: Kabir Vidyarthi
+Date: 1/22
+*/
+
 #include "BNode.h"
 #include "LNode.h"
 #include <iostream>
