@@ -8,6 +8,7 @@ class Student {
   int id;
   float GPA;
   Student(char fName[80],char lName[80],int stid,float stGPA);
+  Student(int stid);
   Student();
   ~Student();
   //displays all the student's information

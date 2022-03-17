@@ -24,6 +24,14 @@ LNode<T>* LNode<T>::getLast() {
 }
 
 template <class T>
+int LNode<T>::getLength() {
+  if (next==NULL) {
+    return 1;
+  }
+  return next->getLength() + 1;
+}
+
+template <class T>
 LNode<T>* LNode<T>::getCertain(int pos) {
   if ((pos==0)||(next==NULL)) {
     return this;
@@ -84,7 +92,7 @@ LNode<T>::LNode(T v, LNode<T>* n) {
 
 template <class T>
 LNode<T>::~LNode() {
-  delete T;
+  delete val;
 }
 
 template class LNode<Student*>;

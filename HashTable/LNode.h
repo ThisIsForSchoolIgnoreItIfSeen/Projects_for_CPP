@@ -8,6 +8,7 @@ class LNode {
   T getValue();
   LNode<T>* getNext();
   LNode<T>* getLast();
+  int getLength();
   LNode<T>* getCertain(int pos);
   //appends a LNode to end of linked listsets stuff, or appends to end of linked list
   void setNext(LNode<T>* n);
