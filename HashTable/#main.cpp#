@@ -56,10 +56,7 @@ void loop(LNode<Student*>** students, int num, int SIZE) {
   }
   if (charComparer(command,commands[0])) {
     //adds
-    int amnt;
-    cout << "How many people do you want to add?";
-    cin >> amnt;
-    cin.ignore(180,'\n');
+    int amnt = rand() % 36 + 1;
     for (int i=0;i < amnt; i++) {
       if (students[num%SIZE]==NULL) {
 	students[num%SIZE] = new LNode<Student*>(new Student(num));

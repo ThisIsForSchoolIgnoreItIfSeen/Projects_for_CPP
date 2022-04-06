@@ -1,0 +1,45 @@
+#include "BNode.h"
+#include <iostream>
+#include <cmath>
+#include <cstring>
+using namespace std;
+
+template <class T>
+T BNode<T>::getValue() {
+  return val;
+}
+
+template <class T>
+BNode<T>* BNode<T>::getLeft() {
+  return left;
+}
+
+template <class T>
+BNode<T>* BNode<T>::getRight() {
+  return right;
+}
+
+template <class T>
+void BNode<T>::setRight(BNode<T>* n) {
+  right = n;
+}
+
+template <class T>
+void BNode<T>::setLeft(BNode<T>* n) {
+  left = n;
+}
+
+template <class T>
+BNode<T>::BNode() {
+  left = NULL;
+  right = NULL;
+}
+
+template <class T>
+BNode<T>::BNode(T v) {
+  val = v;
+  left = NULL;
+  right = NULL;
+}
+
+template class BNode<int>;
