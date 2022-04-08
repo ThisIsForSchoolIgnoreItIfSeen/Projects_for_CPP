@@ -30,16 +30,16 @@ void BNode<T>::setLeft(BNode<T>* n) {
 }
 
 template <class T>
-void searchAdd(T n) {
+void BNode<T>::searchAdd(T n) {
   
 }
 
 template <class T>
-void searchAdd(BNode<T>* n) {
+void BNode<T>::searchAdd(BNode<T>* n) {
 }
 
 template <class T>
-void printr(int sp) {
+void BNode<T>::printr(int sp) {
   if (left != NULL) {
     left->printr(sp + 1);
   }

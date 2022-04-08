@@ -8,56 +8,61 @@ things are going on, you alone must decipher, the comments are dark, nonexistent
 #include "BNode.h"
 using namespace std;
 
-void loop();
+void loop(BNode<int>* head);
+void adder(BNode<int>* head, int added);
 
 int main() {
+  BNode<int>* head = NULL;
+  loop(head);
   
+  return 0;
 }
 
-void loop() {
+void loop(BNode<int>* head) {
   cout << "Would you like to 'P'rint the tree, 'I'nput numbers, 'R'emove numbers, 'C'heck for numbers, or 'Q'uit\n'P', 'I', 'R', 'C', or 'Q':";
   char input;
   cin >> input;
   cin.ignore(80,'\n');
+  
   if (input=='i'||input=='I') {
     cout << "Would you like to input numbers 'M'anually or through a 'F'ile?\n";
     cin >> input;
+    
     if (input=='m'||input=='M') {
       //manual input
+      int added;
       cout << "Enter Number:";
-      cin >> heap[adPos];
-      int j = adPos + 1;
-      while (j>1) {
-	if (heap[j-1]>heap[(int)floor(j/2)-1]) {
-	  int temp = heap[(int)floor(j/2)-1];
-	  heap[(int)floor(j/2)-1] = heap[j-1];
-	  heap[j-1] = temp;
-	}
-	j = (int)floor(j/2);
+      cin >> added;
+      if (head == NULL) {
+	head = new BNode<int>(added);
+      } else {
+	adder(head, added);
       }
-      adPos++;
     } else if ((input == 'f') || (input == 'F')) {
       //file input
       char fileName[80];
+      cin.ignore(100,'\n');
       cout << "Which file? ";
       cin.get(fileName, 80, '\n');
       ifstream reader(fileName);
-      while ((adPos < 100) && (reader >> heap[adPos])) {
-	int j = adPos + 1;
-	while (j>1) {
-	  if (heap[j-1]>heap[(int)floor(j/2)-1]) {
-	    int temp = heap[(int)floor(j/2)-1];
-	    heap[(int)floor(j/2)-1] = heap[j-1];
-	    heap[j-1] = temp;
-	  }
-	  j = (int)floor(j/2);
+      int added;
+      while (reader >> added) {
+	if (head == NULL) {
+	  head = new BNode<int>(added);
+	} else {
+	  adder(head, added);
 	}
-	adPos++;
       }
     }
-  } else {
+  } else if ((input == 'p') || (input == 'P')) {
     //print
-    printr(heap, 1);
+    head->printr(0);
+  } else if ((input == 'q') || (input == 'Q')) {
+    return;
   }
   loop(head);
+}
+
+void adder(BNode<int>* head, int added) {
+
 }
