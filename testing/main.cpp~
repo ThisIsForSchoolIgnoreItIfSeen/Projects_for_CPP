@@ -1,0 +1,14 @@
+#include <iostream>
+#include <tuple>
+using namespace std;
+
+tuple<int, int> fibo(int i);
+
+int main() {
+  for (int i = 0; i < 10; i++) {
+    tuple<int, int> a = fibo(i);
+    cout << i << ',' << a(0) << endl;
+  }
+}
+
+tuple<int, int> fibo(int i)

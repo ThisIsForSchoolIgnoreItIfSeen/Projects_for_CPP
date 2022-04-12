@@ -64,5 +64,21 @@ void loop(BNode<int>* head) {
 }
 
 void adder(BNode<int>* head, int added) {
-
+  if (head == NULL) {
+    head = new BNode<int>(added);
+    return;
+  }
+  if (added > head->getValue()) {
+    if (head->getLeft()==NULL) {
+      head->setLeft(new BNode<int>(added));
+    } else {
+      adder(head->getLeft(),added);
+    }
+  } else {
+    if (head->getRight()==NULL) {
+      head->setRight(new BNode<int>(added));
+    } else {
+      adder(head->getRight(),added);
+    }
+  }
 }
