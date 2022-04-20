@@ -30,6 +30,11 @@ void BNode<T>::setLeft(BNode<T>* n) {
 }
 
 template <class T>
+void BNode<T>::setVal(T n) {
+  val = n;
+}
+
+template <class T>
 void BNode<T>::searchAdd(T n) {
   
 }
