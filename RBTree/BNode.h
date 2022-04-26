@@ -4,7 +4,7 @@
 enum colour {
   red,
   black
-}
+};
 
 template <class T>
 class BNode {

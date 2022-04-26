@@ -9,11 +9,10 @@ things are going on, you alone must decipher, the comments are dark, nonexistent
 using namespace std;
 
 void loop(BNode<int>* head);
-void adder(BNode<int>* head, int added);
 int count(BNode<int>* head, int added, int = 0);
-bool deleter(BNode<int>* head, int deleted);
-int rightmost(BNode<int>* head);
-void deleteRightmost(BNode<int>* head);
+
+const colour R = red;
+const colour B = black;
 
 int main() {
   BNode<int>* head = NULL;
@@ -37,9 +36,12 @@ void loop(BNode<int>* head) {
       cout << "Enter Number:";
       cin >> added;
       if (head == NULL) {
-	head = new BNode<int>(added);
+	head = new BNode<int>(added, B);
       } else {
-	adder(head, added);
+	head->searchAdd(added);
+      }
+      if (head->color == R) {
+	head->color = B;
       }
     } else if ((input == 'f') || (input == 'F')) {
       char fileName[80];
@@ -50,9 +52,12 @@ void loop(BNode<int>* head) {
       int added;
       while (reader >> added) {
 	if (head == NULL) {
-	  head = new BNode<int>(added);
+	  head = new BNode<int>(added, B);
 	} else {
-	  adder(head, added);
+	  head->searchAdd(added);
+	  if (head->color == R) {
+	    head->color = B;
+	  }
 	}
       }
     }
@@ -67,31 +72,10 @@ void loop(BNode<int>* head) {
     cout << "What number would you like to delete from the binary tree?\n";
     int check;
     cin >> check;
-    deleter(head, check);
   } else if ((input == 'q') || (input == 'Q')) {
     return;
   }
   loop(head);
-}
-
-void adder(BNode<int>* head, int added) {
-  if (head == NULL) {
-    head = new BNode<int>(added);
-    return;
-  }
-  if (added >= head->getValue()) {
-    if (head->getLeft()==NULL) {
-      head->setLeft(new BNode<int>(added));
-    } else {
-      adder(head->getLeft(),added);
-    }
-  } else {
-    if (head->getRight()==NULL) {
-      head->setRight(new BNode<int>(added));
-    } else {
-      adder(head->getRight(),added);
-    }
-  }
 }
 
 int count(BNode<int>* head, int check, int counter) {
@@ -107,63 +91,4 @@ int count(BNode<int>* head, int check, int counter) {
     counter = count(head->getRight(), check, counter);
   }
   return counter;
-}
-
-bool deleter(BNode<int>* head, int deleted) {
-  if (head == NULL) {
-    return false;
-  }
-  if (head->getValue() == deleted) {
-    if ((head->getRight()==NULL) || (head->getLeft()==NULL)) {
-      return true;
-    } else {
-      head->setVal(rightmost(head->getLeft()));
-      deleteRightmost(head->getLeft());
-    }
-  }
-
-  BNode<int>* temp;
-    
-  if (head->getValue() < deleted) {
-    if (deleter(head->getLeft(), deleted)) {
-      temp = head->getLeft();
-      if (temp->getLeft()==NULL) {
-	head->setLeft(temp->getRight());
-	delete temp;
-      } else {
-	head->setLeft(temp->getLeft());
-	delete temp;
-      }
-    }
-  } else {
-    if (deleter(head->getRight(), deleted)) {
-      temp = head->getRight();
-      if (temp->getLeft()==NULL) {
-	head->setRight(temp->getRight());
-	delete temp;
-      } else {
-	head->setRight(temp->getLeft());
-	delete temp;
-      }
-    }
-  }
-  return false;
-}
-
-int rightmost(BNode<int>* head) {
-  if (head->getRight()==NULL) {
-    return head->getValue();
-  }
-  return rightmost(head->getRight());
-}
-
-void deleteRightmost(BNode<int>* head) {
-  if (head == NULL) {return;}
-  if (head->getRight() == NULL) {return;}
-  if (head->getRight()->getRight() == NULL) {
-    delete head->getRight();
-    head->setRight(NULL);
-    return;
-  }
-  deleteRightmost(head->getRight());
 }

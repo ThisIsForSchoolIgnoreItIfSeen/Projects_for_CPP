@@ -48,21 +48,89 @@ void BNode<T>::setVal(T n) {
 
 template <class T>
 void BNode<T>::searchAdd(T n) {
-  
+  if (n > val) {
+    //right
+    if (right == NULL) {
+      right = new BNode(n, red);
+      right->setParent(this);
+      //right->balance();
+    } else {
+      right->searchAdd(n);
+    }
+  } else {
+    //left
+    if (left == NULL) {
+      left = new BNode(n, red);
+      left->setParent(this);
+      //left->balance();
+    } else {
+      left->searchAdd(n);
+    }
+  }
 }
 
 template <class T>
 void BNode<T>::searchAdd(BNode<T>* n) {
+  if (n->getValue() > val) {
+    //right
+    if (right == NULL) {
+      right = n;
+      right->setParent(this);
+      //right->balance();
+    } else {
+      right->searchAdd(n);
+    }
+  } else {
+    //left
+    if (left == NULL) {
+      left = n;
+      left->setParent(this);
+      //left->balance();
+    } else {
+      left->searchAdd(n);
+    }
+  }
 }
 
 template <class T>
 void BNode<T>::balance() {
-  BNode<T> grandp = parent->getParent();
-  BNode<T> unc;
+  if ((parent == NULL) || (parent->color == black) || (color == black)) {
+    return;
+  }
+  BNode<T>* grandp = parent->getParent();
+  BNode<T>* unc;
+  char side;
+  char parSide;
+  if (parent->getLeft()==this) {
+    side = 'l';
+  } else {
+    side = 'r';
+  }
+  if (grandp == NULL) {
+    parent->color = black;
+    return;
+  }
+
   if (grandp->getLeft() == parent) {
+    parSide = 'l';
     unc = grandp->getRight();
   } else {
+    parSide = 'r';
     unc = grandp->getLeft();
+  }
+
+  if ((unc != NULL) && (unc->color == red) && (parent->color == red)) {
+    grandp->color = red;
+    parent->color = black;
+    uncle->color = black;
+    grandp->balance();
+  } else {
+    //parent becomes grandpa
+    if (side == parSide) {
+      //single rotation
+    } else {
+      //double rotation
+    }
   }
 }
 
@@ -71,8 +139,11 @@ void BNode<T>::printr(int sp) {
   if (left != NULL) {
     left->printr(sp + 1);
   }
-  for (int i = 0; i < sp; i++) {
+  for (int i = 1; i < sp; i++) {
     cout << "     ";
+  }
+  if (sp > 0) {
+    cout << "|----";
   }
   cout << val << endl;
   if (right != NULL) {
