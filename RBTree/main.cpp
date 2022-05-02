@@ -40,6 +40,9 @@ void loop(BNode<int>* head) {
       } else {
 	head->searchAdd(added);
       }
+      while (head->getParent() != NULL) {
+	head = head->getParent();
+      }
       if (head->color == R) {
 	head->color = B;
       }
@@ -55,6 +58,9 @@ void loop(BNode<int>* head) {
 	  head = new BNode<int>(added, B);
 	} else {
 	  head->searchAdd(added);
+	  while (head->getParent() != NULL) {
+	    head = head->getParent();
+	  }
 	  if (head->color == R) {
 	    head->color = B;
 	  }

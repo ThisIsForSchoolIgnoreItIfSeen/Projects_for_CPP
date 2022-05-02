@@ -4,6 +4,14 @@
 #include <cstring>
 using namespace std;
 
+char colorChar(colour c) {
+  if (c == red) {
+    return 'r';
+  } else {
+    return 'b';
+  }
+}
+
 template <class T>
 T BNode<T>::getValue() {
   return val;
@@ -27,13 +35,17 @@ BNode<T>* BNode<T>::getParent() {
 template <class T>
 void BNode<T>::setRight(BNode<T>* n) {
   right = n;
-  n->setParent(this);
+  if (n != NULL) {
+    n->setParent(this);
+  }
 }
 
 template <class T>
 void BNode<T>::setLeft(BNode<T>* n) {
   left = n;
-  n->setParent(this);
+  if (n != NULL) {
+    n->setParent(this);
+  }
 }
 
 template <class T>
@@ -53,7 +65,7 @@ void BNode<T>::searchAdd(T n) {
     if (right == NULL) {
       right = new BNode(n, red);
       right->setParent(this);
-      //right->balance();
+      right->balance();
     } else {
       right->searchAdd(n);
     }
@@ -62,7 +74,7 @@ void BNode<T>::searchAdd(T n) {
     if (left == NULL) {
       left = new BNode(n, red);
       left->setParent(this);
-      //left->balance();
+      left->balance();
     } else {
       left->searchAdd(n);
     }
@@ -76,7 +88,7 @@ void BNode<T>::searchAdd(BNode<T>* n) {
     if (right == NULL) {
       right = n;
       right->setParent(this);
-      //right->balance();
+      right->balance();
     } else {
       right->searchAdd(n);
     }
@@ -85,7 +97,7 @@ void BNode<T>::searchAdd(BNode<T>* n) {
     if (left == NULL) {
       left = n;
       left->setParent(this);
-      //left->balance();
+      left->balance();
     } else {
       left->searchAdd(n);
     }
@@ -122,14 +134,57 @@ void BNode<T>::balance() {
   if ((unc != NULL) && (unc->color == red) && (parent->color == red)) {
     grandp->color = red;
     parent->color = black;
-    uncle->color = black;
+    unc->color = black;
     grandp->balance();
   } else {
-    //parent becomes grandpa
     if (side == parSide) {
-      //single rotation
+      //single rotation no re-balance
+      if (side == 'l') {
+	grandp->setLeft(parent->getRight());
+
+	if (grandp->getParent() != NULL) {
+	  if (grandp->getParent()->getLeft()==grandp) {
+	    grandp->getParent()->setLeft(parent);
+	  } else {
+	    grandp->getParent()->setRight(parent);
+	  }
+	} else {
+	  parent->setParent(NULL);
+	}
+	
+	parent->setRight(grandp);
+	parent->color = black;
+	grandp->color = red;
+      } else {
+	grandp->setRight(parent->getLeft());
+
+	if (grandp->getParent() != NULL) {
+	  if (grandp->getParent()->getLeft()==grandp) {
+	    grandp->getParent()->setLeft(parent);
+	  } else {
+	    grandp->getParent()->setRight(parent);
+	  }
+	} else {
+	  parent->setParent(NULL);
+	}
+	
+	parent->setLeft(grandp);
+	parent->color = black;
+	grandp->color = red;
+      }
     } else {
-      //double rotation
+      //child becomes parent, balance parent
+      if (side == 'l') {
+	parent->setLeft(right);
+	setRight(parent);
+	grandp->setRight(this);
+	right->balance();
+      } else {
+	parent->setRight(left);
+	setLeft(parent);
+	grandp->setLeft(this);
+	left->balance();
+      }
     }
   }
 }
@@ -145,7 +200,7 @@ void BNode<T>::printr(int sp) {
   if (sp > 0) {
     cout << "|----";
   }
-  cout << val << endl;
+  cout << val << colorChar(color) << endl;
   if (right != NULL) {
     right->printr(sp + 1);
   }
