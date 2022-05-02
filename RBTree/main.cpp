@@ -1,5 +1,8 @@
 /*
-things are going on, you alone must decipher, the comments are dark, nonexistent
+Kabir Vidyarthi
+4/28/22
+Red black tree
+inputs  numbers into a red-black tree, not everything has been fixed yet
 */
 #include <iostream>
 #include <cmath>
