@@ -1,0 +1,125 @@
+/*
+Kabir Vidyarthi
+5/2/22
+humourous sorting algorithms
+examples of the famous stalin sort, slowsort and more
+*/
+
+#include <iostream>
+#include <fstream>
+#include <vector>
+#include <cmath>
+#include <cstring>
+using namespace std;
+
+vector<int> stalinSort(vector<int> unsorted);
+int subSlowSort(vector<int> unsorted);
+vector<int> slowSort(vector<int> unsorted);
+vector<int> quicksort(vector<int> unsorted);
+
+int main() {
+  vector<int> nums;
+  vector<int> sorted;
+  //collect numbers and sort type
+  char file[20];
+  cout << "Which file would you like to input from?\n";
+  cin.get(file,20,'\n');
+  cin.ignore(100,'\n');
+  ifstream reader(file);
+  int added;
+  while (reader >> added) {
+    nums.push_back(added);
+  }
+  cout << "\nWhich sorting method would you like to use:\nStalin, Slow, Quick:";
+  cin.get(file,20,'\n');
+  switch (file[1]) {
+    //gotta love switch statements, parses sort type
+  case 't':
+    sorted = stalinSort(nums);
+    break;
+  case 'l':
+    sorted = slowSort(nums);
+    break;
+  default:
+    sorted = quicksort(nums);
+    break;
+  }
+  //print
+  for (int i = 0; i < sorted.size(); i++) {
+    cout << sorted[i] << ',';
+    if ((i % 24 == 0) || (i == sorted.size() - 1)) {
+      cout << endl;
+    }
+  }
+  
+  return 0;
+}
+
+vector<int> stalinSort(vector<int> unsorted) {
+  int current = unsorted[0];
+  vector<int> sorted;
+  for (int i = 0; i < unsorted.size(); i++) {
+    if (unsorted[i] < current) {
+      continue;
+    }
+    current = unsorted[i];
+    sorted.push_back(unsorted[i]);
+  }   
+  return sorted;
+}
+int subSlowSort(vector<int> unsorted) {
+  if (unsorted.size() == 1) {
+    return unsorted[0];
+  }
+  int f = subSlowSort(vector<int>(unsorted.begin(),unsorted.begin()+unsorted.size()/2));
+  int s = subSlowSort(vector<int>(unsorted.begin()+unsorted.size()/2,unsorted.end()));
+  return f * (f<s) + s * (s<=f);
+}
+vector<int> slowSort(vector<int> unsorted) {
+  vector<int> sorted;
+
+  int size = unsorted.size();
+  
+  while (size > 1) {
+    int added = subSlowSort(vector<int>(unsorted.begin(), unsorted.begin() + size));
+    sorted.push_back(added);
+    int loc;
+    for (int i = 0; i < size; i++) {
+      if (unsorted[i] == added) {
+	loc = i;
+      }
+    }
+    unsorted[loc] = unsorted[size-1];
+    size--;
+  }
+
+  for (int i =0; i < size; i++) {
+    sorted.push_back(unsorted[i]);
+  }
+  
+  return sorted;
+}
+vector<int> quicksort(vector<int> unsorted) {
+  if (unsorted.size() == 1) {
+    return unsorted;
+  }
+  int pivot = unsorted[0];
+  vector<int> smaller;
+  vector<int> bigger;
+  for (int i = 1; i < unsorted.size(); i++) {
+    if (unsorted[i] < pivot) {
+      smaller.push_back(unsorted[i]);
+    } else {
+      bigger.push_back(unsorted[i]);
+    }
+  }
+  if (smaller.size() > 1) {
+    smaller = quicksort(smaller);
+  }
+  if (bigger.size() > 1) {
+    bigger = quicksort(bigger);
+  }
+  smaller.push_back(pivot);
+  smaller.insert(smaller.end(),bigger.begin(),bigger.end());
+  return smaller;
+}
