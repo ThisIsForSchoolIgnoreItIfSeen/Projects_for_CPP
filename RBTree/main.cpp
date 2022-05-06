@@ -19,6 +19,7 @@ const colour B = black;
 
 int main() {
   BNode<int>* head = NULL;
+  //starts loop
   loop(head);
   
   return 0;
@@ -31,10 +32,12 @@ void loop(BNode<int>* head) {
   cin.ignore(80,'\n');
   
   if (input=='i'||input=='I') {
+    //input
     cout << "Would you like to input numbers 'M'anually or through a 'F'ile?\n";
     cin >> input;
     
     if (input=='m'||input=='M') {
+      //manual
       int added;
       cout << "Enter Number:";
       cin >> added;
@@ -50,6 +53,7 @@ void loop(BNode<int>* head) {
 	head->color = B;
       }
     } else if ((input == 'f') || (input == 'F')) {
+      //file
       char fileName[80];
       cin.ignore(100,'\n');
       cout << "Which file? ";
@@ -57,6 +61,7 @@ void loop(BNode<int>* head) {
       ifstream reader(fileName);
       int added;
       while (reader >> added) {
+	//adds each #
 	if (head == NULL) {
 	  head = new BNode<int>(added, B);
 	} else {
@@ -71,13 +76,20 @@ void loop(BNode<int>* head) {
       }
     }
   } else if ((input == 'c') || (input == 'C')) {
+    //search
     cout << "What number would you like to check is in the binary tree?\n";
     int check;
     cin >> check;
     cout << "The number you gave appears " << count(head, check) << " time(s) in the binary tree\n";
   } else if ((input == 'p') || (input == 'P')) {
-    head->printr(0);
+    //print
+    if (head == NULL) {
+      cout << "The tree is empty";
+    } else {
+      head->printr(0);
+    }
   } else if ((input == 'd') || (input =='D')) {
+    //deletion
     cout << "What number would you like to delete from the binary tree?\n";
     int check;
     cin >> check;
@@ -88,6 +100,7 @@ void loop(BNode<int>* head) {
 }
 
 int count(BNode<int>* head, int check, int counter) {
+  //check func
   if (head == NULL) {
     return counter;
   }
