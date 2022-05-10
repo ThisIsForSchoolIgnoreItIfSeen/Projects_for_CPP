@@ -13,6 +13,7 @@ using namespace std;
 
 void loop(BNode<int>* head);
 int count(BNode<int>* head, int added, int = 0);
+void remove(BNode<int>* head, int removed);
 
 const colour R = red;
 const colour B = black;
@@ -29,16 +30,19 @@ void loop(BNode<int>* head) {
   cout << "Would you like to 'P'rint the tree, 'I'nput numbers, 'D'elete numbers, 'C'heck for numbers, or 'Q'uit\n'P', 'I', 'D', 'C', or 'Q': ";
   char input;
   cin >> input;
+  input = tolower(input);
   cin.ignore(80,'\n');
-  
-  if (input=='i'||input=='I') {
+  int check;
+  switch (input) {
+  case 'i':
     //input
     cout << "Would you like to input numbers 'M'anually or through a 'F'ile?\n";
     cin >> input;
-    
-    if (input=='m'||input=='M') {
+    input  = tolower(input);
+    int added;
+    switch (input) {
+    case 'm':
       //manual
-      int added;
       cout << "Enter Number:";
       cin >> added;
       if (head == NULL) {
@@ -52,14 +56,14 @@ void loop(BNode<int>* head) {
       if (head->color == R) {
 	head->color = B;
       }
-    } else if ((input == 'f') || (input == 'F')) {
+      break;
+    default:
       //file
       char fileName[80];
       cin.ignore(100,'\n');
       cout << "Which file? ";
       cin.get(fileName, 80, '\n');
       ifstream reader(fileName);
-      int added;
       while (reader >> added) {
 	//adds each #
 	if (head == NULL) {
@@ -74,27 +78,33 @@ void loop(BNode<int>* head) {
 	  }
 	}
       }
+      break;
     }
-  } else if ((input == 'c') || (input == 'C')) {
+    break;
+  case 'c':
     //search
     cout << "What number would you like to check is in the binary tree?\n";
-    int check;
     cin >> check;
     cout << "The number you gave appears " << count(head, check) << " time(s) in the binary tree\n";
-  } else if ((input == 'p') || (input == 'P')) {
+    break;
+  case 'p':
     //print
     if (head == NULL) {
       cout << "The tree is empty";
     } else {
       head->printr(0);
     }
-  } else if ((input == 'd') || (input =='D')) {
+    break;
+  case 'd':
     //deletion
     cout << "What number would you like to delete from the binary tree?\n";
-    int check;
     cin >> check;
-  } else if ((input == 'q') || (input == 'Q')) {
+
+    remove(head, check);
+    break;
+  case 'q':
     return;
+    break;
   }
   loop(head);
 }
@@ -114,3 +124,56 @@ int count(BNode<int>* head, int check, int counter) {
   }
   return counter;
 }
+
+void remove(BNode<int>* head, int removed) {
+  if (head == NULL) {
+    return;
+  } else if (head->getValue() < removed) {
+    if (head->getLeft() != NULL) {
+      remove(head->getLeft(), removed);
+    }
+    return;
+  } else if (head->getValue() > removed) {
+    if (head->getRight() != NULL) {
+      remove(head->getRight(), removed);
+    }
+    return;
+  }
+  //already know this is the right node time for pain
+  if (head->color == R) {
+    //easier
+    if (head->getLeft() != NULL) {
+      if (head->getRight() != NULL) {
+	//two children
+
+      } else {
+	//one child
+
+      }
+    } else if (head->getRight() != NULL) {
+      //only one child, pull it up
+      
+    } else {
+      //no children
+
+    }
+  } else {
+    //harder
+    if (head->getLeft() != NULL) {
+      if (head->getRight() != NULL) {
+	//two children
+
+      } else {
+	//one child
+
+      }
+    } else if (head->getRight() != NULL) {
+      //only one child, pull it up
+      
+    } else {
+      //no children
+
+    }
+  }
+}
+ 
