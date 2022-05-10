@@ -73,16 +73,13 @@ int subSlowSort(vector<int> unsorted) {
   }
   int f = subSlowSort(vector<int>(unsorted.begin(),unsorted.begin()+unsorted.size()/2));
   int s = subSlowSort(vector<int>(unsorted.begin()+unsorted.size()/2,unsorted.end()));
-  return f * (f<s) + s * (s<=f);
+  return f * (f>s) + s * (s>=f);
 }
 vector<int> slowSort(vector<int> unsorted) {
-  vector<int> sorted;
-
   int size = unsorted.size();
   
   while (size > 1) {
     int added = subSlowSort(vector<int>(unsorted.begin(), unsorted.begin() + size));
-    sorted.push_back(added);
     int loc;
     for (int i = 0; i < size; i++) {
       if (unsorted[i] == added) {
@@ -90,14 +87,11 @@ vector<int> slowSort(vector<int> unsorted) {
       }
     }
     unsorted[loc] = unsorted[size-1];
+    unsorted[size-1] = added;
     size--;
   }
-
-  for (int i =0; i < size; i++) {
-    sorted.push_back(unsorted[i]);
-  }
   
-  return sorted;
+  return unsorted;
 }
 vector<int> quicksort(vector<int> unsorted) {
   if (unsorted.size() == 1) {
