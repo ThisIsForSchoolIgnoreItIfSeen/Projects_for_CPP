@@ -33,6 +33,15 @@ BNode<T>* BNode<T>::getParent() {
 }
 
 template <class T>
+BNode<T>* BNode<T>::largestChild() {
+  if (right == NULL) {
+    return this;
+  } else {
+    return right->largestChild();
+  }
+}
+
+template <class T>
 void BNode<T>::setRight(BNode<T>* n) {
   right = n;
   if (n != NULL) {

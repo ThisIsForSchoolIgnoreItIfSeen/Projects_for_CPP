@@ -13,7 +13,9 @@ using namespace std;
 
 void loop(BNode<int>* head);
 int count(BNode<int>* head, int added, int = 0);
-void remove(BNode<int>* head, int removed);
+void remove(BNode<int>* &head, BNode<int>* rid, int removed);
+void removeBalance(BNode<int>* &head, BNode<int>* db);
+
 
 const colour R = red;
 const colour B = black;
@@ -100,7 +102,7 @@ void loop(BNode<int>* head) {
     cout << "What number would you like to delete from the binary tree?\n";
     cin >> check;
 
-    remove(head, check);
+    remove(head, head, check);
     break;
   case 'q':
     return;
@@ -125,55 +127,214 @@ int count(BNode<int>* head, int check, int counter) {
   return counter;
 }
 
-void remove(BNode<int>* head, int removed) {
-  if (head == NULL) {
+void remove(BNode<int>* &head, BNode<int>* rid, int removed) {
+  if (rid == NULL) {
     return;
-  } else if (head->getValue() < removed) {
-    if (head->getLeft() != NULL) {
-      remove(head->getLeft(), removed);
+  } else if (rid->getValue() < removed) {
+    if (rid->getLeft() != NULL) {
+      remove(head, rid->getLeft(), removed);
     }
     return;
-  } else if (head->getValue() > removed) {
-    if (head->getRight() != NULL) {
-      remove(head->getRight(), removed);
+  } else if (rid->getValue() > removed) {
+    if (rid->getRight() != NULL) {
+      remove(head, rid->getRight(), removed);
     }
     return;
   }
-  //already know this is the right node time for pain
-  if (head->color == R) {
-    //easier
-    if (head->getLeft() != NULL) {
-      if (head->getRight() != NULL) {
-	//two children
 
+  
+  BNode<int>* par = rid->getParent();
+  //already know this is the right node time for pain
+  if (rid->color == R) {
+    //easier
+    if (rid->getLeft() != NULL) {
+      if (rid->getRight() != NULL) {
+	//two children
+	BNode<int>* n = rid->getLeft()->largestChild();
+	rid->setVaue(n->getValue());
+	n->setValue(removed);
+	remove(head, n, removed);
       } else {
 	//one child
-
+	if (head != rid) {
+	  if (par->getLeft() == rid) {
+	    par->setLeft(rid->getLeft());
+	    delete rid;
+	    rid = par->getLeft();
+	  } else {
+	    par->setRight(rid->getLeft());
+	    delete rid;
+	    rid = par->getLeft();
+	  }
+	} else {
+	  head = rid->getLeft();
+	  delete rid;
+	  head->setParent(NULL);
+	}
       }
-    } else if (head->getRight() != NULL) {
+    } else if (rid->getRight() != NULL) {
       //only one child, pull it up
-      
+      if (head != rid) {
+	if (par->getLeft() == rid) {
+	  par->setLeft(rid->getRight());
+	  delete rid;
+	  rid = par->getLeft();
+	} else {
+	  par->setRight(rid->getRight());
+	  delete rid;
+	  rid = par->getLeft();
+	}
+      } else {
+	head = rid->getRight();
+	delete rid;
+	head->setParent(NULL);
+      }
     } else {
       //no children
-
+      if (rid != head) {
+	if (par->getLeft() == rid) {
+	  par->setLeft(NULL);
+	} else {
+	  par->setRight(NULL);
+	}
+	delete rid;
+      } else {
+	head = NULL;
+	delete rid;
+      }
     }
   } else {
     //harder
-    if (head->getLeft() != NULL) {
-      if (head->getRight() != NULL) {
+    if (rid->getLeft() != NULL) {
+      if (rid->getRight() != NULL) {
 	//two children
-
+	BNode<int>* n = rid->getLeft()->largestChild();
+	rid->setVaue(n->getValue());
+	n->setValue(removed);
+	remove(head, n, removed);
       } else {
 	//one child
-
+	if (head != rid) {
+	  if (par->getLeft() == rid) {
+	    par->setLeft(rid->getLeft());
+	    delete rid;
+	    rid = par->getLeft();
+	  } else {
+	    par->setRight(rid->getLeft());
+	    delete rid;
+	    rid = par->getLeft();
+	  }
+	  
+	  if (rid->color == R) {
+	    rid->color = B;
+	  } else {
+	    removeBalance(head, rid);
+	  }
+	  
+	} else {
+	  head = rid->getLeft();
+	  delete rid;
+	  head->setParent(NULL);
+	}
       }
-    } else if (head->getRight() != NULL) {
+    } else if (rid->getRight() != NULL) {
       //only one child, pull it up
-      
+      if (head != rid) {
+	if (par->getLeft() == rid) {
+	  par->setLeft(rid->getRight());
+	  delete rid;
+	  rid = par->getLeft();
+	} else {
+	  par->setRight(rid->getRight());
+	  delete rid;
+	  rid = par->getLeft();
+	}
+	
+	if (rid->color == R) {
+	  rid->color = B;
+	} else {
+	  removeBalance(head, rid);
+	}
+	
+      } else {
+	head = rid->getRight();
+	delete rid;
+	head->setParent(NULL);
+      }
     } else {
       //no children
-
+      if (par != NULL) {
+	removeBalance(head, rid);
+	if (par->getLeft() == rid) {
+	  par->setLeft(NULL);
+	} else {
+	  par->setRight(NULL);
+	}
+	delete rid;
+      } else {
+	head = NULL;
+	delete rid;
+      }
     }
   }
 }
- 
+
+void removeBalance(BNode<int>* &head, BNode<int>* db) {
+  if (db == head) {
+    return;
+  }
+
+  char side;
+  BNode<int>* sib;
+  BNode<int>* par = db->getParent();
+
+  if (par->getLeft == db) {
+    side = 'l';
+    sib = par->getRight();
+  } else {
+    side = 'r';
+    sib = par->getLeft();
+  }
+
+  if (sib == NULL || sib->color == B) {
+    //rotations on sibling
+  } else {
+    //rotations on parent to make sibling black
+    if (side = 'l') {
+      par->setRight(sib->getLeft());
+
+      if (par == head) {
+	head = sib;
+	head->setParent(NULL);
+	head->setLeft(par);
+      } else {
+	BNode<int> grandp = par->getParent();
+	sib->setLeft(par);
+	if (grandp->getLeft() == par) {
+	  grandp->setLeft(sib);
+	} else {
+	  grandp->setRight(sib);
+	}
+      }
+    } else {
+      par->setLeft(sib->getRight());
+
+      if (par == head) {
+	head = sib;
+	head->setParent(NULL);
+	head->setRight(par);
+      } else {
+	BNode<int> grandp = par->getParent();
+	sib->setRight(par);
+	if (grandp->getLeft() == par) {
+	  grandp->setLeft(sib);
+	} else {
+	  grandp->setRight(sib);
+	}
+      }
+    }
+    sib->color = B;
+    par->color = R;
+    removeBalance(head, db);
+  }
+}

@@ -14,6 +14,7 @@ class BNode {
   BNode<T>* getLeft();
   BNode<T>* getRight();
   BNode<T>* getParent();
+  BNode<T>* largestChild();
   void setRight(BNode<T>* n);
   void setLeft(BNode<T>* n);
   void setParent(BNode<T>* n);
