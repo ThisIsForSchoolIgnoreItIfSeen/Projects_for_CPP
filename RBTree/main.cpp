@@ -130,18 +130,17 @@ int count(BNode<int>* head, int check, int counter) {
 void remove(BNode<int>* &head, BNode<int>* rid, int removed) {
   if (rid == NULL) {
     return;
-  } else if (rid->getValue() < removed) {
+  } else if (rid->getValue() > removed) {
     if (rid->getLeft() != NULL) {
       remove(head, rid->getLeft(), removed);
     }
     return;
-  } else if (rid->getValue() > removed) {
+  } else if (rid->getValue() < removed) {
     if (rid->getRight() != NULL) {
       remove(head, rid->getRight(), removed);
     }
     return;
   }
-
   
   BNode<int>* par = rid->getParent();
   //already know this is the right node time for pain
@@ -151,8 +150,8 @@ void remove(BNode<int>* &head, BNode<int>* rid, int removed) {
       if (rid->getRight() != NULL) {
 	//two children
 	BNode<int>* n = rid->getLeft()->largestChild();
-	rid->setVaue(n->getValue());
-	n->setValue(removed);
+	rid->setVal(n->getValue());
+	n->setVal(removed);
 	remove(head, n, removed);
       } else {
 	//one child
@@ -209,8 +208,8 @@ void remove(BNode<int>* &head, BNode<int>* rid, int removed) {
       if (rid->getRight() != NULL) {
 	//two children
 	BNode<int>* n = rid->getLeft()->largestChild();
-	rid->setVaue(n->getValue());
-	n->setValue(removed);
+	rid->setVal(n->getValue());
+	n->setVal(removed);
 	remove(head, n, removed);
       } else {
 	//one child
@@ -288,7 +287,7 @@ void removeBalance(BNode<int>* &head, BNode<int>* db) {
   BNode<int>* sib;
   BNode<int>* par = db->getParent();
 
-  if (par->getLeft == db) {
+  if (par->getLeft() == db) {
     side = 'l';
     sib = par->getRight();
   } else {
@@ -298,6 +297,69 @@ void removeBalance(BNode<int>* &head, BNode<int>* db) {
 
   if (sib == NULL || sib->color == B) {
     //rotations on sibling
+    if (sib == NULL || (((sib->getLeft() == NULL) || (sib->getLeft()->color == B)) && ((sib->getRight() == NULL) || sib->getRight()->color == B))) {
+      //sibling exists and has no red children
+      //push black level up
+      if (sib != NULL) {
+	sib->color = R;
+      }
+      if (par->color == R) {
+	par->color = B;
+      } else {
+	removeBalance(head, par);
+      }
+    } else {
+      //sibling exists and has at least one red child
+      if (side == 'r') {
+	if ((sib->getLeft() != NULL) && (sib->getLeft()->color == R)) {
+	  //opposite child is red
+	  if (par == head) {
+	    head = sib;
+	    sib->setParent(NULL);
+	  } else {
+	    BNode<int>* grandp = par->getParent();
+	    if (grandp->getLeft() == par) {
+	      grandp->setLeft(sib);
+	    } else {
+	      grandp->setRight(sib);
+	    }
+	  }
+	  par->setLeft(sib->getRight());
+	  sib->setRight(par);
+	} else {
+	  //same side child is red
+	  //swap nephew and sibling recall function
+	  par->setLeft(sib->getRight());
+	  sib->setRight(par->getLeft()->getLeft());
+	  par->getLeft()->setLeft(sib);
+	  removeBalance(head, db);
+	}
+      } else {
+	if ((sib->getRight() != NULL) && (sib->getRight()->color == R)) {
+	  //opposite child is red
+	  if (par == head) {
+	    head = sib;
+	    sib->setParent(NULL);
+	  } else {
+	    BNode<int>* grandp = par->getParent();
+	    if (grandp->getLeft() == par) {
+	      grandp->setLeft(sib);
+	    } else {
+	      grandp->setRight(sib);
+	    }
+	  }
+	  par->setRight(sib->getLeft());
+	  sib->setLeft(par);
+	} else {
+	  //same side child is red
+	  //swap nephew and sibling recall function
+	  par->setRight(sib->getLeft());
+	  sib->setLeft(par->getRight()->getRight());
+	  par->getRight()->setRight(sib);
+	  removeBalance(head, db);
+	}
+      }
+    }
   } else {
     //rotations on parent to make sibling black
     if (side = 'l') {
@@ -308,7 +370,7 @@ void removeBalance(BNode<int>* &head, BNode<int>* db) {
 	head->setParent(NULL);
 	head->setLeft(par);
       } else {
-	BNode<int> grandp = par->getParent();
+	BNode<int>* grandp = par->getParent();
 	sib->setLeft(par);
 	if (grandp->getLeft() == par) {
 	  grandp->setLeft(sib);
@@ -324,7 +386,7 @@ void removeBalance(BNode<int>* &head, BNode<int>* db) {
 	head->setParent(NULL);
 	head->setRight(par);
       } else {
-	BNode<int> grandp = par->getParent();
+	BNode<int>* grandp = par->getParent();
 	sib->setRight(par);
 	if (grandp->getLeft() == par) {
 	  grandp->setLeft(sib);
