@@ -297,7 +297,7 @@ void removeBalance(BNode<int>* &head, BNode<int>* db) {
 
   if (sib == NULL || sib->color == B) {
     //rotations on sibling
-    if (sib == NULL || (((sib->getLeft() == NULL) || (sib->getLeft()->color == B)) && ((sib->getRight() == NULL) || sib->getRight()->color == B))) {
+    if (sib == NULL || (((sib->getLeft() == NULL) || (sib->getLeft()->color == B)) && ((sib->getRight() == NULL) || (sib->getRight()->color == B)))) {
       //sibling exists and has no red children
       //push black level up
       if (sib != NULL) {
@@ -326,6 +326,7 @@ void removeBalance(BNode<int>* &head, BNode<int>* db) {
 	  }
 	  par->setLeft(sib->getRight());
 	  sib->setRight(par);
+	  sib->getLeft()->color = B;
 	} else {
 	  //same side child is red
 	  //swap nephew and sibling recall function
@@ -350,6 +351,7 @@ void removeBalance(BNode<int>* &head, BNode<int>* db) {
 	  }
 	  par->setRight(sib->getLeft());
 	  sib->setLeft(par);
+	  sib->getRight()->color = B;
 	} else {
 	  //same side child is red
 	  //swap nephew and sibling recall function
