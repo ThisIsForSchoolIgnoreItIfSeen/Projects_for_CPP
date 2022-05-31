@@ -3,7 +3,7 @@
 
 class GNode {
  private:
-  char[] name;
+  char name[20];
 };
 
 #endif
