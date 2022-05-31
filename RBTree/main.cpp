@@ -119,7 +119,7 @@ int count(BNode<int>* head, int check, int counter) {
   if (head->getValue() == check) {
     counter++;
   }
-  if (head->getValue() <= check) {
+  if (head->getValue() >= check) {
     counter = count(head->getLeft(), check, counter);
   } else {
     counter = count(head->getRight(), check, counter);
