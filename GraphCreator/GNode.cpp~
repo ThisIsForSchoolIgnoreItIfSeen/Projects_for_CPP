@@ -1,5 +1,5 @@
-#include "LNode.h"
 #include "GNode.h"
+#include <utility>
 #include <iostream>
 #include <cmath>
 #include <cstring>
@@ -96,3 +96,56 @@ LNode<T>::~LNode() {
 }
 
 template class LNode<GNode*>;
+
+void graph::addNode(char* a) {
+  GNode* g;
+  g->name = a;
+  int i = getHash(a);
+  if (nodes[i] == NULL) {
+    nodes[i] = new LNode<GNode*>(g);
+  } else {
+    nodes[i]->append(g);
+  }
+}
+
+int graph::getHash(char* w) {
+  int hashVal = 0;
+  while (*w) {
+    hashVal += *w;
+    hashVal = hashVal % 20;
+    w++;
+  }
+  return hashVal;
+}
+
+GNode* graph::getNode(char* n) {
+  int h = getHash(n);
+  bool exists = false;
+  for (LNode<GNode*>* i = nodes[h]; i != NULL; i = i->getNext()) {
+    if (strcmp(i->getValue()->name,n) == 0) {
+      return i->getValue();
+    }
+  }
+  return NULL;
+}
+
+void graph::printTable() {
+  
+
+graph::graph() {
+  for (int i = 0; i < 20; i++) {
+    nodes[i] = NULL;
+  }
+}
+
+graph::~graph() {
+  for (int i = 0; i < 20; i++) {
+    LNode<GNode*>* j  = nodes[i];
+    while (j!=NULL) {
+      LNode<GNode*>* t = j;
+      j = t->getNext();
+      delete t;
+    }
+  }
+}
+    

@@ -3,36 +3,65 @@ basic graph creator implementing algorithms for transversal
 */
 
 #include <iostream>
+#include <vector>
 #include <cmath>
 #include <cstring>
-#include "LNode.h"
 #include "GNode.h"
 using namespace std;
 
-void loop(LNode<GNode> rNodes[20]);
-int getHash(char* w);
+void loop(graph g);
 
 
 int main() {
-  LNode<GNode> rNodes[20];
+  graph g;
   for (int i = 0; i < 20; i++) {
-    rNodes[i] = NULL;
+    g.nodes[i] = NULL;
   }
-  loop(rNodes);
+  loop(g);
   return 0;
 }
 
-void loop(LNode<GNode> rNodes[20]) {
+void loop(graph g) {
   char input;
   cout << "Do you want to add, delete, measure, print or quit?\n'a' 'd' 'm' 'p' or 'q': ";
   cin >> input;
   input = tolower(input);
+  char name[20];
   switch (input) {
   case 'a':
     //add node or vertex
+    cout << "Do you want to add a node or a vertex?\n'n' or 'v'";
+    cin >> input;
+    input = tolower(input);
+    switch (input) {
+    case 'n':
+      cout << "what will you name the node?\n";
+      cin.ignore(20, '\n');
+      cin.get(name, 20, '\n');
+      cin.ignore(20, '\n');
+      g.addNode(name);
+      break;
+    case 'v':
+      g.addVertex();
+      break;
+    }
     break;
   case 'd':
     //delete node or vertex
+    cout << "Do you want to remove a node or a vertex?\n'n' or 'v'";
+    cin >> input;
+    input = tolower(input);
+    switch (input) {
+    case 'n':
+      cout << "Which Node do you want to delete?\n";
+      cin.ignore(20, '\n');
+      cin.get(name, 20, '\n');
+      cin.ignore(20, '\n');
+      break;
+    case 'v':
+
+      break;
+    }
     break;
   case 'm':
     //get two nodes and find shortest path, drijka algorithm
@@ -42,17 +71,8 @@ void loop(LNode<GNode> rNodes[20]) {
     break;
   default:
     //print
+    g.printTable();
     break;
   }
-  loop(rNodes);
-}
-
-int getHash(char *w) {
-  int hashVal = 0;
-  while (*w) {
-    hashVal += *w;
-    hashVal = hashVal % 20;
-    w++;
-  }
-  return hashVal;
+  loop(g);
 }
