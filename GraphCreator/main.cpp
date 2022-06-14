@@ -72,6 +72,7 @@ void loop(graph g) {
     break;
   case 'm':
     //get two nodes and find shortest path, drijka algorithm
+    g.printPath();
     break;
   case 'q':
     return;

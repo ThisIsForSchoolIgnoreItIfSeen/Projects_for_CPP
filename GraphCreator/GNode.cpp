@@ -2,6 +2,7 @@
 #include <utility>
 #include <iostream>
 #include <cmath>
+#include <algorithm>
 #include <cstring>
 using namespace std;
 
@@ -85,7 +86,8 @@ LNode<T>::LNode(T v, LNode<T>* n) {
 
 template <class T>
 LNode<T>::~LNode() {
-  delete val;
+  if (val != NULL)
+    delete val;
 }
 
 template class LNode<GNode*>;
@@ -267,7 +269,7 @@ void graph::printTable() {
 }
 
 bool compPairs(pair<GNode*, int> a, pair<GNode*, int> b) {
-  return a.second < b.second;
+  return ((a.second < b.second) && (a.second != -1)) || (b.second == -1);
 }
 
 void graph::printPath() {
@@ -304,15 +306,17 @@ void graph::printPath() {
   for (int i = 0; i < 20; i++) {
     for (LNode<GNode*>* j = nodes[i]; j != NULL; j = j->next) {
       if (j->val == start) {
+	cout << "At least this worked cur: " << j->val->name << endl;
 	costs.push_back(make_pair(j->val, 0));
       } else {
+	cout << "This is iterating " << j->val->name << endl;
 	costs.push_back(make_pair(j->val, -1));
       }
     }
   }
   //find costs and move them where needed in vector
   for (int i = 0; i < costs.size(); i++) {
-    sort(costs.begin(), costs.end(), compPairs);
+    sort(costs.begin()+i, costs.end(), compPairs);
     if (costs[i].second == -1) {
       //this node and all subsequent are disconnected from start node
       break;
@@ -323,7 +327,7 @@ void graph::printPath() {
       //going through connections of current node, if any are weighted less they will placed in costs
       for (int k = 0; k < costs.size(); k++) {
 	//k is recorded cost j is the recoded direct dist
-	if (costs[k].first == cur.first) {
+	if (costs[k].first == j.first) {
 	  if ((costs[k].second == -1) || (costs[k].second > cur.second + j.second)) {
 	    //going through cur node is either first possible dist or shroter than prev recorded
 	    costs[k].second  = cur.second + j.second;
@@ -336,8 +340,8 @@ void graph::printPath() {
   //print path
   for (int i = 0; i < costs.size(); i++) {
     if (costs[i].first == end) {
-      cout << "distance is " << costs[i].second << " units\nPath is: ";
-      
+      cout << "distance is " << costs[i].second << " units\nPath is:\n";
+      break;
     }
   }
   return;
@@ -351,11 +355,11 @@ graph::graph() {
 
 graph::~graph() {
   for (int i = 0; i < 20; i++) {
-    LNode<GNode*>* j  = nodes[i];
-    while (j!=NULL) {
-      LNode<GNode*>* t = j;
-      j = t->next;
-      delete t;
+    for (LNode<GNode*>* j = nodes[i]; j != NULL; j = j->next) {
+      if ((j != NULL) && (j->prev != NULL)) {
+	delete j->prev;
+	j->prev = NULL;
+      }
     }
   }
 }
