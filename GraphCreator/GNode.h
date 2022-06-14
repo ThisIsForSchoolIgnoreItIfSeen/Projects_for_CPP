@@ -7,15 +7,15 @@
 template <class T>
 class LNode {
  public:
+  T val;
+  LNode<T>* next;
+  LNode<T>* prev;
   //these two are too simple, literally just give you the pointers to the corresponding values btw get certain is 0-indexing
-  T getValue();
-  LNode<T>* getNext();
+  void setNext(LNode<T>* n);
   LNode<T>* getLast();
   int getLength();
   LNode<T>* getCertain(int pos);
   //appends a LNode to end of linked listsets stuff, or appends to end of linked list
-  void setNext(LNode<T>* n);
-  void setValue(T n);
   void append(LNode<T>* n);
   void append(T n);
 
@@ -25,14 +25,12 @@ class LNode {
   LNode(LNode<T>* n);
   LNode(T v, LNode<T>* n);
   ~LNode();
- private:
-  T val;
-  LNode<T>* next;
 };
 
 struct GNode {
   char name[20];
   std::vector<std::pair<GNode*, int>> connections;
+  GNode(char* a);
 };
 
 class graph {
@@ -43,8 +41,10 @@ public:
   std::vector<GNode*> listNodes();
   void addNode(char* a);
   void addVertex();
+  void delNode(char* a);
+  void removeVertex();
   void printTable();
-  void printPath(GNode* a, GNode* b);
+  void printPath();
   int getHash(char* w);
   GNode* getNode(char* n);
   
